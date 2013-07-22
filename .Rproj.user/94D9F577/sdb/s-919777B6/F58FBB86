@@ -1,0 +1,15 @@
+{
+    "contents" : "# global risk dataset - only read and process once\n\nr<-read.csv(\"../data/countryrisks.csv\")\n# restrict to 1 timestamp\nr1 <- subset(r,Date == r[1,\"Date\"])\ncountries <- r1[,c(\"Country.Name\",\"Code\")]\n\n# identify the risk categories\n# constructs a hierarchical list of risk categories and associated risks\n# TODO: need to define a sensible limits for the number of NA's\nrcats <- names(r[colSums(is.na(r)) == nrow(r)])\nrh <- list(rcats)\nrc1 <- rcats[1]\nfor (rc2 in rcats[-1]) {\n  pos1 <- match(rc1,colnames(r)) + 1\n  pos2 <- match(rc2,colnames(r)) - 1\n  rh[[rc1]] <- list(colnames(r[,pos1:pos2]))\n  rc1 <- rc2\n}\npos1 <- match(rc1,colnames(r)) + 1\npos2 <- length(colnames(r))\nrh[[rc1]] <- list(colnames(r[,pos1:pos2]))\n\n# identify the risk names \nrnames <- unlist(rh,use.names=FALSE)\nrnames <- rnames[(length(rcats)+1):length(rnames)]\n\n\n# include the calculation algorithms\nsource(file = \"algorithms.R\")",
+    "created" : 1374475156760.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3945816988",
+    "id" : "F58FBB86",
+    "lastKnownWriteTime" : 1374475560,
+    "path" : "~/zrr.R/shiny/global.R",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

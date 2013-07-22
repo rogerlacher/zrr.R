@@ -1,0 +1,161 @@
+;Continent;Continent#Sub-Region;Ethnic-Cultural Region;Income Group;Democracy Status;Democracy Status#Democracy Sub-Status;European Union (EU) Member State;European Free Trade Association (ETFA) Member State;African Union (OAU) Member State;Economic Community of West African States (ECOWAS) Member State;Southern African Development Community (SADC) Member State;Arab League Member State;Commonwealth of Independent States (CIS, Former USSR) Member State;South Asian Association for Regional Cooperation (SAARC) Member State;Shanghai Cooperation Organisation (SCO) Member State;Association of Southeast Asian Nations (ASEAN) Member State;North American Free Trade Agreement (NAFTA) Member State;Central American Common Market (CACM) Member State;Southern Common Market (MERCOSUR) Member State;Andean Community of Nations Member State;Caribbean Community (CARICOM) Member State;Association of Caribbean States (ACS) Member State;Asia-Pacific Cooperation (APEC) Member State;Organisation for Economic Cooperation and Development (OECD) Member State ;North Atlantic Treaty Organisations (NATO);Organisation of Petroleum-Exporting Countries (OPEC) Member State;Commonwealth of Nations Member State;La Francophonie Organisation Member State;Organization of Ibero-American States (OEI) Member State
+;Continent;Continent Sub-Region;Ethnic-Cultural Region;Income Group;Democracy Status;Democracy Sub-Status;European Union (EU) Member State;European Free Trade Association (ETFA) Member State;African Union (OAU) Member State;Economic Community of West African States (ECOWAS) Member State;Southern African Development Community (SADC) Member State;Arab League Member State;Commonwealth of Independent States (CIS, Former USSR) Member State;South Asian Association for Regional Cooperation (SAARC) Member State;Shanghai Cooperation Organisation (SCO) Member State;Association of Southeast Asian Nations (ASEAN) Member State;North American Free Trade Agreement (NAFTA) Member State;Central American Common Market (CACM) Member State;Southern Common Market (MERCOSUR) Member State;Andean Community of Nations Member State;Caribbean Community (CARICOM) Member State;Association of Caribbean States (ACS) Member State;Asia-Pacific Cooperation (APEC) Member State;Organisation for Economic Cooperation and Development (OECD) Member State ;North Atlantic Treaty Organisations (NATO);Organisation of Petroleum-Exporting Countries (OPEC) Member State;Commonwealth of Nations Member State;La Francophonie Organisation Member State;Organization of Ibero-American States (OEI) Member State
+;Continent;Continent Sub-Region;Ethnic-Cultural Region;Income Group;Democracy Status;Democracy Sub-Status;European Union (EU) Member State;European Free Trade Association (ETFA) Member State;African Union (OAU) Member State;Economic Community of West African States (ECOWAS) Member State;Southern African Development Community (SADC) Member State;Arab League Member State;Commonwealth of Independent States (CIS, Former USSR) Member State;South Asian Association for Regional Cooperation (SAARC) Member State;Shanghai Cooperation Organisation (SCO) Member State;Association of Southeast Asian Nations (ASEAN) Member State;North American Free Trade Agreement (NAFTA) Member State;Central American Common Market (CACM) Member State;Southern Common Market (MERCOSUR) Member State;Andean Community of Nations Member State;Caribbean Community (CARICOM) Member State;Association of Caribbean States (ACS) Member State;Asia-Pacific Cooperation (APEC) Member State;Organisation for Economic Cooperation and Development (OECD) Member State ;North Atlantic Treaty Organisations (NATO);Organisation of Petroleum-Exporting Countries (OPEC) Member State;Commonwealth of Nations Member State;La Francophonie Organisation Member State;Organization of Ibero-American States (OEI) Member State
+;data;data;data;data;data;data;binary;binary;binary;binary;binary;binary;binary;binary;binary;binary;binary;binary;binary;binary;binary;binary;binary;binary;binary;binary;binary;binary;binary
+AFG;Asia;Southern Asia;Indo-Persian Sphere;low income;autocratic rule;transition;no;no;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+ALB;Europe;Southern Europe;East European Sphere;lower middle income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no
+DZA;Africa;Northern Africa;Arabic-Semitic Sphere;lower middle income;autocratic rule;pseudo-democracy;no;no;yes;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no
+AGO;Africa;Middle Africa;African Sphere;lower middle income;autocratic rule;transition;no;no;yes;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no
+ARG;South America;Southern South America;Latin American Sphere;upper middle income;democratic rule;federal democracy;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;yes
+ARM;Asia;Western Asia;East European Sphere;lower middle income;democratic rule;democracy;no;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+AUS;Australia-Pacific;Australasia;Anglosaxon Sphere;high income;democratic rule;federal democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;yes;no;no;yes;no;no
+AUT;Europe;Western Europe;German Sphere;high income;democratic rule;federal democracy;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;no;no
+AZE;Asia;Western Asia;Turkic Sphere;lower middle income;autocratic rule;pseudo-democracy;no;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+BGD;Asia;Southern Asia;Indo-Persian Sphere;low income;democratic rule;democracy;no;no;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no
+BRB;North America;Caribbean;Anglosaxon Sphere;high income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;yes;no;no;no;no;no;no;no
+BDI;Africa;Eastern Africa;African Sphere;low income;autocratic rule;transition;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no
+BEL;Europe;Western Europe;Roman Sphere;high income;democratic rule;federal democracy;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;yes;no;no;yes;no
+BEN;Africa;Western Africa;African Sphere;upper middle income;autocratic rule;pseudo-democracy;no;no;yes;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+BTN;Asia;Southern Asia;Indo-Persian Sphere;lower middle income;autocratic rule;absolute monarchy;no;no;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+BIH;Europe;Southern Europe;East European Sphere;lower middle income;democratic rule;confederal democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+BLZ;South America;Central America;Latin American Sphere;lower middle income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;yes;yes;no;no;no;no;yes;no;no
+BLR;Europe;Eastern Europe;East European Sphere;lower middle income;autocratic rule;pseudo-democracy;no;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+BOL;South America;Southern South America;Latin American Sphere;lower middle income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;yes
+BWA;Africa;Southern Africa;African Sphere;upper middle income;democratic rule;democracy;no;no;yes;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no
+BRA;South America;Southern South America;Latin American Sphere;upper middle income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;yes
+BHR;Asia;Western Asia;Arabic-Semitic Sphere;high income;autocratic rule;pseudo-democracy;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no
+BGR;Europe;Eastern Europe;East European Sphere;upper middle income;democratic rule;democracy;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;yes;no
+BFA;Africa;Western Africa;African Sphere;low income;autocratic rule;pseudo-democracy;no;no;yes;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no
+KHM;Asia;Southeastern Asia;Southeast Asian Sphere;low income;autocratic rule;pseudo-democracy;no;no;no;no;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;yes;no
+CAN;North America;Northern America;Anglosaxon Sphere;high income;democratic rule;federal democracy;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;no;no;yes;yes;yes;no;yes;yes;no
+COG;Africa;Middle Africa;African Sphere;lower middle income;democratic rule;democracy;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no
+TCD;Africa;Middle Africa;African Sphere;low income;autocratic rule;pseudo-democracy;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no
+CHL;South America;Southern South America;Latin American Sphere;upper middle income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;no;no;yes
+CHN;Asia;Eastern Asia;East Asian Sphere;lower middle income;autocratic rule;dictatorship;no;no;no;no;no;no;no;no;yes;no;no;no;no;no;no;no;yes;no;no;no;no;no;no
+CIV;Africa;Western Africa;African Sphere;low income;autocratic rule;pseudo-democracy;no;no;yes;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no
+CMR;Africa;Middle Africa;African Sphere;lower middle income;autocratic rule;pseudo-democracy;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;yes;no
+COD;Africa;Middle Africa;African Sphere;low income;autocratic rule;transition;no;no;yes;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no
+COL;South America;Northern South America;Latin American Sphere;lower middle income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;yes;no;no;no;no;no;no;yes
+CRI;North America;Central America;Latin American Sphere;upper middle income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;yes;no;no;no;no;no;no;yes
+HRV;Europe;Southern Europe;East European Sphere;upper middle income;autocratic rule;dictatorship;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+CUB;North America;Caribbean;Latin American Sphere;lower middle income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;no;no;no;yes
+CYP;Europe;Southern Europe;East European Sphere;high income;democratic rule;democracy;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no
+CZE;Europe;Eastern Europe;East European Sphere;high income;democratic rule;democracy;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;yes;no;no;no;no
+DNK;Europe;Northern Europe;Nordic Sphere;high income;democratic rule;democracy;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;yes;no;no;no;no
+DOM;North America;Caribbean;Latin American Sphere;lower middle income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;no;no;no;yes
+ECU;South America;Northern South America;Latin American Sphere;lower middle income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;no;no;yes;no;no;yes
+EGY;Africa;Northern Africa;Arabic-Semitic Sphere;lower middle income;autocratic rule;pseudo-democracy;no;no;yes;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no
+ERI;Africa;Eastern Africa;Arabic-Semitic Sphere;low income;autocratic rule;dictatorship;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+SLV;North America;Central America;Latin American Sphere;lower middle income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;yes;no;no;no;no;no;no;yes
+ESP;Europe;Southern Europe;Roman Sphere;high income;democratic rule;federal democracy;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;yes;no;no;no;yes
+EST;Europe;Northern Europe;Nordic Sphere;high income;democratic rule;democracy;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;no
+ETH;Africa;Eastern Africa;Arabic-Semitic Sphere;low income;autocratic rule;pseudo-democracy;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+FIN;Europe;Northern Europe;Nordic Sphere;high income;democratic rule;democracy;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;no;no
+FRA;Europe;Western Europe;Roman Sphere;high income;democratic rule;democracy;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;yes;no;no;yes;no
+GMB;Africa;Western Africa;African Sphere;low income;autocratic rule;pseudo-democracy;no;no;yes;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no
+GBR;Europe;Northern Europe;Anglosaxon Sphere;high income;democratic rule;democracy;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;yes;no;yes;no;no
+GEO;Europe;Eastern Europe;East European Sphere;lower middle income;democratic rule;democracy;no;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+DEU;Europe;Western Europe;German Sphere;high income;democratic rule;federal democracy;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;yes;no;no;no;no
+GHA;Africa;Western Africa;African Sphere;low income;democratic rule;democracy;no;no;yes;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no
+GRC;Europe;Southern Europe;East European Sphere;high income;democratic rule;democracy;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;yes;no;no;yes;no
+GTM;North America;Central America;Latin American Sphere;lower middle income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;yes;no;no;no;no;no;no;yes
+GUY;South America;Northern South America;Anglosaxon Sphere;lower middle income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;yes;no;no;no;no;yes;no;no
+HTI;North America;Caribbean;Latin American Sphere;low income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;yes;no;no;no;no;no;yes;no
+HKG;Asia;Eastern Asia;East Asian Sphere;high income;autocratic rule;dictatorship;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+HND;North America;Central America;Latin American Sphere;lower middle income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;yes;no;no;no;no;no;no;yes
+HUN;Europe;Eastern Europe;East European Sphere;upper middle income;democratic rule;democracy;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;no
+IDN;Asia;Southeastern Asia;Indo-Malay Sphere;lower middle income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;yes;no;no;no;no;no;no;yes;no;no;yes;no;no;no
+IND;Asia;Southern Asia;Indo-Persian Sphere;low income;democratic rule;federal democracy;no;no;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no
+IRN;Asia;Southern Asia;Indo-Persian Sphere;lower middle income;autocratic rule;pseudo-democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no
+IRL;Europe;Northern Europe;Nordic Sphere;high income;democratic rule;democracy;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;no;no
+IRQ;Asia;Western Asia;Arabic-Semitic Sphere;lower middle income;autocratic rule;dictatorship;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no
+ISL;Europe;Northern Europe;Nordic Sphere;high income;democratic rule;democracy;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;yes;no;no;no;no
+ISR;Asia;Western Asia;Arabic-Semitic Sphere;high income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+ITA;Europe;Southern Europe;Roman Sphere;high income;democratic rule;democracy;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;yes;no;no;no;no
+JAM;North America;Caribbean;Anglosaxon Sphere;lower middle income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;yes;no;no;no;no;yes;no;no
+JOR;Asia;Western Asia;Arabic-Semitic Sphere;lower middle income;autocratic rule;pseudo-democracy;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+JPN;Asia;Eastern Asia;East Asian Sphere;high income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;yes;no;no;no;no;no
+KAZ;Asia;Central Asia;Turkic Sphere;upper middle income;autocratic rule;pseudo-democracy;no;no;no;no;no;no;yes;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+KEN;Africa;Eastern Africa;African Sphere;low income;democratic rule;democracy;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no
+KGZ;Asia;Central Asia;Turkic Sphere;low income;autocratic rule;pseudo-democracy;no;no;no;no;no;no;yes;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+KOR;Asia;Eastern Asia;East Asian Sphere;high income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;yes;no;no;no;no;no
+SAU;Asia;Western Asia;Arabic-Semitic Sphere;high income;autocratic rule;absolute monarchy;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no
+KWT;Asia;Western Asia;Arabic-Semitic Sphere;high income;autocratic rule;pseudo-democracy;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no
+LAO;Asia;Southeastern Asia;Southeast Asian Sphere;low income;autocratic rule;dictatorship;no;no;no;no;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;yes;no
+LVA;Europe;Northern Europe;Nordic Sphere;upper middle income;democratic rule;democracy;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;no
+LBY;Africa;Northern Africa;Arabic-Semitic Sphere;upper middle income;autocratic rule;dictatorship;no;no;yes;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no
+LBR;Africa;Western Africa;African Sphere;low income;autocratic rule;pseudo-democracy;no;no;yes;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+LSO;Africa;Southern Africa;African Sphere;lower middle income;democratic rule;democracy;no;no;yes;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no
+LBN;Asia;Western Asia;Arabic-Semitic Sphere;upper middle income;autocratic rule;pseudo-democracy;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no
+LTU;Europe;Northern Europe;Nordic Sphere;upper middle income;democratic rule;democracy;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;no
+LUX;Europe;Western Europe;German Sphere;high income;democratic rule;democracy;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;yes;no;no;no;no
+MDG;Africa;Eastern Africa;Indo-Malay Sphere;low income;democratic rule;federal democracy;no;no;yes;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no
+MAR;Africa;Northern Africa;Arabic-Semitic Sphere;lower middle income;democratic rule;democracy;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no
+MYS;Asia;Southeastern Asia;Indo-Malay Sphere;upper middle income;autocratic rule;federal pseudo-democracy;no;no;no;no;no;no;no;no;no;yes;no;no;no;no;no;no;yes;no;no;no;yes;no;no
+MWI;Africa;Eastern Africa;African Sphere;low income;democratic rule;democracy;no;no;yes;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no
+MDA;Europe;Eastern Europe;East European Sphere;lower middle income;democratic rule;democracy;no;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no
+MEX;North America;Central America;Latin American Sphere;upper middle income;democratic rule;federal democracy;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;no;yes;yes;no;no;no;no;no;yes
+MNG;Asia;Eastern Asia;East Asian Sphere;low income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+MKD;Europe;Southern Europe;East European Sphere;lower middle income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no
+MLI;Africa;Western Africa;African Sphere;low income;democratic rule;democracy;no;no;yes;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no
+MLT;Europe;Southern Europe;Anglosaxon Sphere;high income;democratic rule;democracy;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+MOZ;Africa;Eastern Africa;African Sphere;low income;democratic rule;democracy;no;no;yes;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no
+MUS;Africa;Eastern Africa;Indo-Malay Sphere;upper middle income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no
+MRT;Africa;Western Africa;Arabic-Semitic Sphere;low income;autocratic rule;pseudo-democracy;no;no;yes;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no
+MMR;Asia;Southeastern Asia;Southeast Asian Sphere;low income;autocratic rule;dictatorship;no;no;no;no;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no
+NAM;Africa;Southern Africa;African Sphere;lower middle income;autocratic rule;pseudo-democracy;no;no;yes;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no
+NIC;North America;Central America;Latin American Sphere;lower middle income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;yes;no;no;no;no;no;no;yes
+NLD;Europe;Western Europe;German Sphere;high income;democratic rule;democracy;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;yes;no;no;no;no
+NPL;Asia;Southern Asia;Indo-Persian Sphere;low income;democratic rule;democracy;no;no;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+NGA;Africa;Western Africa;African Sphere;low income;democratic rule;federal democracy;no;no;yes;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;yes;no;no
+NER;Africa;Western Africa;African Sphere;low income;democratic rule;democracy;no;no;yes;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no
+NOR;Europe;Northern Europe;Nordic Sphere;high income;democratic rule;democracy;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;yes;no;no;no;no
+NZL;Australia-Pacific;Australasia;Anglosaxon Sphere;high income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;yes;no;no;yes;no;no
+OMN;Asia;Western Asia;Arabic-Semitic Sphere;upper middle income;autocratic rule;absolute monarchy;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+PAK;Asia;Southern Asia;Indo-Persian Sphere;low income;autocratic rule;pseudo-democracy;no;no;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no
+PAN;North America;Central America;Latin American Sphere;upper middle income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;no;no;no;yes
+PRY;South America;Southern South America;Latin American Sphere;lower middle income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;yes
+PER;South America;Northern South America;Latin American Sphere;lower middle income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;yes;no;no;no;no;no;yes
+PHL;Asia;Southeastern Asia;Indo-Malay Sphere;lower middle income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;yes;no;no;no;no;no;no;yes;no;no;no;no;no;no
+PNG;Australia-Pacific;Australasia;Melanesian Sphere;low income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;yes;no;no
+POL;Europe;Eastern Europe;East European Sphere;upper middle income;democratic rule;democracy;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;no
+PRT;Europe;Southern Europe;Roman Sphere;high income;democratic rule;democracy;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;yes;no;no;no;yes
+PRK;Asia;Eastern Asia;East Asian Sphere;low income;autocratic rule;dictatorship;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+PRI;North America;Caribbean;Latin American Sphere;high income;democratic rule;dependent democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;no;no;no;no
+QAT;Asia;Western Asia;Arabic-Semitic Sphere;high income;autocratic rule;absolute monarchy;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no
+ROU;Europe;Eastern Europe;Roman Sphere;upper middle income;democratic rule;democracy;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;yes;no
+ZAF;Africa;Southern Africa;African Sphere;upper middle income;democratic rule;federal democracy;no;no;yes;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no
+RUS;Europe;Eastern Europe;East European Sphere;upper middle income;democratic rule;federal democracy;no;no;no;no;no;no;yes;no;yes;no;no;no;no;no;no;no;yes;no;no;no;no;no;no
+RWA;Africa;Eastern Africa;African Sphere;low income;autocratic rule;transition;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no
+SEN;Africa;Western Africa;African Sphere;low income;democratic rule;democracy;no;no;yes;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no
+SGP;Asia;Southeastern Asia;Indo-Malay Sphere;high income;autocratic rule;pseudo-democracy;no;no;no;no;no;no;no;no;no;yes;no;no;no;no;no;no;yes;no;no;no;yes;no;no
+SLE;Africa;Western Africa;African Sphere;low income;democratic rule;democracy;no;no;yes;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no
+SVN;Europe;Southern Europe;East European Sphere;high income;democratic rule;democracy;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;no
+SOM;Africa;Eastern Africa;African Sphere;low income;autocratic rule;transition;no;no;yes;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+SRB;Europe;Southern Europe;East European Sphere;upper middle income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+LKA;Asia;Southern Asia;Indo-Persian Sphere;lower middle income;democratic rule;democracy;no;no;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no
+SDN;Africa;Northern Africa;Arabic-Semitic Sphere;low income;autocratic rule;pseudo-democracy;no;no;yes;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+CHE;Europe;Western Europe;German Sphere;high income;democratic rule;federal democracy;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;yes;no
+SUR;South America;Northern South America;German Sphere;lower middle income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;yes;no;no;no;no;no;no;no
+SVK;Europe;Eastern Europe;East European Sphere;upper middle income;democratic rule;democracy;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;no
+SWE;Europe;Northern Europe;Nordic Sphere;high income;democratic rule;democracy;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;no;no
+SYR;Asia;Western Asia;Arabic-Semitic Sphere;lower middle income;autocratic rule;dictatorship;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+TZA;Africa;Eastern Africa;African Sphere;low income;autocratic rule;federal pseudo-democracy;no;no;yes;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no
+THA;Asia;Southeastern Asia;Southeast Asian Sphere;lower middle income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;yes;no;no;no;no;no;no;yes;no;no;no;no;no;no
+TJK;Asia;Central Asia;Indo-Persian Sphere;low income;autocratic rule;pseudo-democracy;no;no;no;no;no;no;yes;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+TKM;Asia;Central Asia;Turkic Sphere;lower middle income;autocratic rule;dictatorship;no;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+TWN;Asia;Eastern Asia;East Asian Sphere;high income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;no;no;no
+TTO;North America;Caribbean;Anglosaxon Sphere;high income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;yes;no;no;no;no;yes;no;no
+TUN;Africa;Northern Africa;Arabic-Semitic Sphere;lower middle income;autocratic rule;pseudo-democracy;no;no;yes;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no
+TUR;Asia;Western Asia;Turkic Sphere;upper middle income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;no
+ARE;Asia;Western Asia;Arabic-Semitic Sphere;high income;autocratic rule;absolute monarchy;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no
+UGA;Africa;Eastern Africa;African Sphere;low income;autocratic rule;pseudo-democracy;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no
+UKR;Europe;Eastern Europe;East European Sphere;lower middle income;democratic rule;democracy;no;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+URY;South America;Southern South America;Latin American Sphere;upper middle income;democratic rule;democracy;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;yes
+USA;North America;Northern America;Anglosaxon Sphere;high income;democratic rule;federal democracy;no;no;no;no;no;no;no;no;no;no;yes;no;no;no;no;no;yes;yes;yes;no;no;no;no
+UZB;Asia;Central Asia;Turkic Sphere;low income;autocratic rule;pseudo-democracy;no;no;no;no;no;no;yes;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+VEN;South America;Northern South America;Latin American Sphere;upper middle income;autocratic rule;pseudo-democracy;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no;yes;no;no;no;yes;no;no;yes
+VNM;Asia;Southeastern Asia;Southeast Asian Sphere;low income;autocratic rule;dictatorship;no;no;no;no;no;no;no;no;no;yes;no;no;no;no;no;no;yes;no;no;no;no;yes;no
+YEM;Asia;Western Asia;Arabic-Semitic Sphere;low income;democratic rule;democracy;no;no;no;no;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no
+ZMB;Africa;Eastern Africa;African Sphere;low income;democratic rule;democracy;no;no;yes;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;yes;no;no
+ZWE;Africa;Eastern Africa;African Sphere;low income;autocratic rule;pseudo-democracy;no;yes;no;yes;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no;no
