@@ -23,8 +23,8 @@ shinyServer(function(input, output) {
     if (length(rMDMTable()) > 0) {
       # display MDM Scatter Plot
       mdm <- rMDMTable()
-      # restrict to 1 timestamp
-      mdm <- subset(mdm,Date == mdm[1,"Date"])
+      # restrict to selected timestamp
+      #mdm <- subset(mdm, Date == levels(r[,"Date"])[input$heatIndex])
       gvisMotionChart(mdm, idvar="Country.Name", timevar="Date", options=list(height=580, width=800))                
     }
   })
@@ -32,8 +32,8 @@ shinyServer(function(input, output) {
   output$mdm <- renderPlot({
     if (length(rMDMTable()) > 0)  {
       mdm <- rMDMTable()
-      # restrict to 1 timestamp
-      mdm <- subset(mdm,Date == mdm[1,"Date"])
+      # restrict to selected timestamp
+      mdm <- subset(mdm,Date == levels(r[,"Date"])[input$heatIndex])
       x <- mdm[,"qx"];
       y <- mdm[,"qy"];       
       plot(x,y, main="ZRR rMDM Plot",asp=1, xlim=c(0,1), ylim=c(0,1), 
@@ -50,16 +50,16 @@ shinyServer(function(input, output) {
   # Choropleth map for selected risk
   output$choropleth <- renderGvis({
     # display choropleth map of selected risk
-    # restrict to 1 timestamp
-    #gvisGeoChart(subset(r,Date == r[1,"Date"])[,c("Code",input$heatRisk)], "Code", input$heatRisk)
+    # restrict to selected timestamp
     gvisGeoChart(subset(r,Date == levels(r[,"Date"])[input$heatIndex])[,c("Code",input$heatRisk)], "Code", input$heatRisk)
   })     
   
   # MDM as a table
   output$table <- renderTable({
     # display MDM table
-    #head(rMDMTable(),n=length(input$countries))
-    rMDMTable()
+    if (length(rMDMTable()) > 0) {
+      subset(rMDMTable(),Date == levels(r[,"Date"])[input$heatIndex])[,-2]
+    }        
   })     
   
   # conditionally create output widgets for xRisks and yRisks

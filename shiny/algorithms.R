@@ -1,6 +1,9 @@
 # MDM and other ZRR algorithms in R
 #
 # Created:  30.10.2012      Roger Lacher
+# Revision:  22.07.2013      Roger Lacher
+#            optimize performance of algos in regards to display
+#            as a Google Motion chart via shiny/rgoogleVis
 # =======================================
 #
 # rMDM Calculations:
@@ -179,10 +182,8 @@ test_MDM <- function() {
   
   NCOL <- 8
   
-  r <- read.csv("zrr.R/data/countryrisks.csv");  
+  r <- read.csv("data/countryrisks.csv");  
   
-  # restrict to 1 timestamp
-  r <- subset(r,Date == r[1,"Date"])
     
   # randomly subset for some 10 countries only
   r <- r[sample(1:nrow(r),10,replace=FALSE),]
@@ -200,7 +201,7 @@ test_MDM <- function() {
   q <- sample(x[-p], 10, replace = F);    # y-projection indices, 10 dimensions
   
   mdm <- rMDM_Motion(r,p,q);
-  Motion=gvisMotionChart(mdm, idvar="Country.Name", timevar="Date", options=list(height=350, width=400)) # Display chart plot(Motion)  
+  Motion=gvisMotionChart(mdm, idvar="Country.Name", timevar="Date", options=list(height=600, width=800)) # Display chart plot(Motion)  
   plot(Motion)
   #plotMDM(mdm, xLabel="My x Risks", yLabel="My y Risks");
   mdm;
