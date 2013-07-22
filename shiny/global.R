@@ -10,6 +10,7 @@ countries <- r1[,c("Country.Name","Code")]
 # TODO: need to define a sensible limits for the number of NA's
 rcats <- names(r[colSums(is.na(r)) == nrow(r)])
 rh <- list(rcats)
+# some change here
 rc1 <- rcats[1]
 for (rc2 in rcats[-1]) {
   pos1 <- match(rc1,colnames(r)) + 1
