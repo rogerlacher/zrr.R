@@ -24,8 +24,10 @@ shinyUI(pageWithSidebar(
                 min=1,
                 max=length(levels(r[,"Date"])),
                 value=length(levels(r[,"Date"])),
-                step=1)
+                step=1),
     
+    textInput("wdiSearch", "Search for World Bank Development Indicator", value = "Tractor"),
+    uiOutput("wdiIndicator")
   ),
   
   # Display Risk Room elements as tabset
@@ -40,6 +42,7 @@ shinyUI(pageWithSidebar(
                htmlOutput("choropleth")),
       tabPanel("S&P Country Ratings", htmlOutput("spratings")),
       tabPanel("Recent Quakes", htmlOutput("quakes")),
+      tabPanel("World Development Indicators",plotOutput("wdi")),
       tabPanel("Table", tableOutput("table"))
       )
   )

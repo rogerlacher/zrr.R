@@ -1,9 +1,11 @@
 library(shiny)
 library(googleVis)
 library(calibrate)
+library(ggplot2)
 
 # server logic for ZRR
 shinyServer(function(input, output) {
+    
   
   #calculate the rMDM from the inputs
   rMDMTable <- reactive({    
@@ -53,6 +55,7 @@ shinyServer(function(input, output) {
     gvisGeoChart(subset(r,Date == levels(r[,"Date"])[input$heatIndex])[,c("Code",input$heatRisk)], "Code", input$heatRisk)
   })     
   
+  # Country Ratings
   output$spratings <- renderGvis({
     gvisGeoChart(x, "Country", "Ranking",
                  options=list(gvis.editor="S&P",
@@ -60,13 +63,26 @@ shinyServer(function(input, output) {
                               colorAxis="{colors:['#91BFDB', '#FC8D59']}"));
   })
   
+  # Recent Earthquakes
   output$quakes <- renderGvis({
     gvisGeoChart(eq, "loc", "Depth", "Magnitude",
                  options=list(displayMode="Markers", 
                               colorAxis="{colors:['purple', 'red', 'orange', 'grey']}",
                               backgroundColor="lightblue"), chartid="EQ");
   })
+
+  # World Bank Development Indicators
+  output$wdi <- renderPlot({
+    if(length(input$countries)>0) {
+      countryCodes <- subset(countries,Country.Name %in% input$countries, select="Code")
+      inds <- WDIsearch(string = input$wdiIndicator)
+      theIndicator <- inds[inds[,"name"] == input$wdiIndicator,"indicator"]
+      DF <- WDI(country=countryCodes,indicator=theIndicator, start=1990, end=2013)
+      ggplot(DF, mapping=aes(year, theIndicator, color=country))+geom_line(stat="identity")+theme_bw()+xlab("Year")+labs(title=input$wdiIndicator)+ylab("")      
+    }
+  })
   
+
   # MDM as a table
   output$table <- renderTable({
     # display MDM table
@@ -87,5 +103,11 @@ shinyServer(function(input, output) {
     riskSelection <- unlist(rh[[input$yRiskCategory]],use.names=FALSE)
     selectInput("yRisks", "Choose y Risk:", 
                   choices = riskSelection, multiple=TRUE)      
+  })
+  
+  output$wdiIndicator <- renderUI({
+    wdiIndicators <- WDIsearch(string = input$wdiSearch)[,"name"]
+    selectInput("wdiIndicator", "Choose Indicator:", 
+                choices = wdiIndicators, multiple=FALSE)      
   })
 })
