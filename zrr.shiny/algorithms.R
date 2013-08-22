@@ -86,6 +86,7 @@ rMDM <- function(r,p,q,sF=0.1) {
   ret[,1] = sF + (1-2*sF) * (ret[,1] - min(ret[,1])) / (max(ret[,1]) - min(ret[,1]))
   ret[,2] = sF + (1-2*sF) * (ret[,2] - min(ret[,2])) / (max(ret[,2]) - min(ret[,2]))  
   colnames(ret) <- c("qx","qy");
+  # TODO: THIS IS SEVERELY HARD CODED AND WILL FAIL AT NEXT OCCASION !!!!!!
   index <- match(c("Rising.food.price"),colnames(r)) - 1;
   ret <- cbind(r[,1:index],ret);
 }

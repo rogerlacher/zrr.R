@@ -1,17 +1,20 @@
-library(XML)
-# S&P Ratings 
-url <- "http://en.wikipedia.org/wiki/List_of_countries_by_credit_rating"
-x <- readHTMLTable(readLines(url), which=2)
-levels(x$Rating) <- substring(levels(x$Rating), 4, 
-                              nchar(levels(x$Rating)))
-x$Ranking <- x$Rating
-levels(x$Ranking) <- nlevels(x$Rating):1
-x$Ranking <- as.character(x$Ranking)
-x$Rating <- paste(x$Country, x$Rating, sep=": ")
-
-# recent earthquakes
-eq <- read.csv("http://earthquake.usgs.gov/earthquakes/feed/v0.1/summary/2.5_week.csv")
-eq$loc=paste(eq$Latitude, eq$Longitude, sep=":")
+if(FALSE) {
+  
+  library(XML)
+  # S&P Ratings 
+  url <- "http://en.wikipedia.org/wiki/List_of_countries_by_credit_rating"
+  x <- readHTMLTable(readLines(url), which=2)
+  levels(x$Rating) <- substring(levels(x$Rating), 4, 
+                                nchar(levels(x$Rating)))
+  x$Ranking <- x$Rating
+  levels(x$Ranking) <- nlevels(x$Rating):1
+  x$Ranking <- as.character(x$Ranking)
+  x$Rating <- paste(x$Country, x$Rating, sep=": ")
+  
+  # recent earthquakes
+  eq <- read.csv("http://earthquake.usgs.gov/earthquakes/feed/v0.1/summary/2.5_week.csv")
+  eq$loc=paste(eq$Latitude, eq$Longitude, sep=":")
+}
 
 # global risk dataset - only read and process once
 
@@ -43,9 +46,10 @@ rnames <- rnames[(length(rcats)+1):length(rnames)]
 
 
 # include the calculation algorithms
-source(file = "algorithms.R")
+library(compiler)
+#source(file = "algorithms.R")
 # using the compiled algorithms version will speed up things
-# loadcmp(file="algorithms.R.c")
+loadcmp(file="algorithms.Rc")
 
 # turn on profiling
 #Rprof(filename="Rprof.out",append=FALSE,interval=0.02,memory.profiling=FALSE)
