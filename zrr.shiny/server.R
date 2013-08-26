@@ -4,13 +4,14 @@ library(calibrate)
 #library(WDI)
 library(ggplot2)
 library(reshape2)
+library(gridExtra)
 
 # server logic for ZRR
 shinyServer(function(input, output) {
     
   
   #calculate the rMDM from the inputs
-  rMDMTable <- reactive({    
+  rMDMTable <- reactive({
     if(length(input$countries)>0 && length(input$xRisks)>0  && length(input$yRisks)> 0) {
       # subset dataset by selected input countries
       r1 <- subset(r,Country.Name %in% input$countries)
@@ -21,31 +22,45 @@ shinyServer(function(input, output) {
      }
   })
   
+#   output$mdm <- renderPlot({
+#     if (length(rMDMTable()) > 0)  {
+#       mdm <- rMDMTable()
+#       x <- mdm[,"qx"];
+#       y <- mdm[,"qy"];       
+#       plot(x,y, main="ZRR rMDM Plot",asp=1, xlim=c(0,1), ylim=c(0,1), 
+#            xlab="xRisks", ylab="yRisks");
+#       textxy(x,y,mdm[,"Country.Name"]);
+#     }
+#   })
+#   
   output$mdm <- renderPlot({
     if (length(rMDMTable()) > 0)  {
-      mdm <- rMDMTable()
-      x <- mdm[,"qx"];
-      y <- mdm[,"qy"];       
-      plot(x,y, main="ZRR rMDM Plot",asp=1, xlim=c(0,1), ylim=c(0,1), 
-           xlab="xRisks", ylab="yRisks");
-      textxy(x,y,mdm[,"Country.Name"]);
+      mdm <- rMDMTable();
+      p <- ggplot(data=mdm,aes(x=qx,y=qy)) + labs(title="Risk Room floor") + xlab("x-Risks") + ylab("y-Risks") + xlim(0,1) + ylim(0,1);
+      p <- p + geom_point(aes(size=abs(rnorm(length(Country.Name))),color=factor(Country.Name)));
+      p <- p + geom_text(aes(label=Country.Name), size=3);
+      print(p);
     }
-  })
+  })  
   
   # Risk Walls
   output$walls <- renderPlot({
-    # display Risk Walls  
-    r1 <- subset(r,Country.Name %in% input$countries)
-    # restrict to selected timestamp
-    r1 <- subset(r1,Date == levels(r[,"Date"])[input$timeIndex])
-    xRisks <- t(r1[,input$xRisks])            
-    #yRisks <- t(r1[,input$yRisks])
+    # restrict molten dataset to selected timestamp
+    rmx <- subset(rm,Date == levels(r[,"Date"])[input$timeIndex] & risk %in% input$xRisks)
+    rmxc <- subset(rmx,Country.Name %in% input$countries)
+    rmy = subset(rm,Date == levels(r[,"Date"])[input$timeIndex] & risk %in% input$yRisks)
+    rmyc <- subset(rmy,Country.Name %in% input$countries)
     
-    Molten <- melt(xRisks)
-    # TODO: need to see how to get back Risk and Country labels....
-    Molten[,1]<-as.numeric(as.factor(Molten[,1]))
-    Molten[,2]<-as.factor(Molten[,2])
-    print(ggplot(Molten, aes(x = Var1, y = value, colour = Var2)) + geom_line())
+    xRisks <- ggplot() + geom_boxplot(data=rmx,aes(x=risk,y=value)) + xlab("x-Risks") + ylab("Value")
+    xRisks <- xRisks + geom_line(data=rmxc,aes(x=risk,y=value,group=Country.Name,color=Country.Name))
+    xRisks <- xRisks + geom_point(data=rmxc,aes(x=risk,y=value,group=Country.Name,color=Country.Name))         
+
+    yRisks <- ggplot() + geom_boxplot(data=rmy,aes(x=risk,y=value)) + xlab("y-Risks") + ylab("Value")
+    yRisks <- yRisks + geom_line(data=rmyc,aes(x=risk,y=value,group=Country.Name,color=Country.Name))
+    yRisks <- yRisks + geom_point(data=rmyc,aes(x=risk,y=value,group=Country.Name,color=Country.Name))         
+    
+    stackedplot <- grid.arrange(xRisks, yRisks, nrow=2)
+    print(stackedplot)
   })
   
   # Choropleth map for selected risk

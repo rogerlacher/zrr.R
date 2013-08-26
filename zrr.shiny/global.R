@@ -19,6 +19,9 @@ if(FALSE) {
 # global risk dataset - only read and process once
 
 r<-read.csv("../data/countryrisks.csv")
+# melt dataset & get rid of NA columns (i.e. Risk Categories)
+rm <- melt(r,variable.name="risk")
+rm <- rm[colSums(is.na(rm)) != nrow(rm)]
 # restrict to 1 timestamp
 r1 <- subset(r,Date == r[1,"Date"])
 countries <- r1[,c("Country.Name","Code")]
