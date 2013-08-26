@@ -22,17 +22,7 @@ shinyServer(function(input, output) {
      }
   })
   
-#   output$mdm <- renderPlot({
-#     if (length(rMDMTable()) > 0)  {
-#       mdm <- rMDMTable()
-#       x <- mdm[,"qx"];
-#       y <- mdm[,"qy"];       
-#       plot(x,y, main="ZRR rMDM Plot",asp=1, xlim=c(0,1), ylim=c(0,1), 
-#            xlab="xRisks", ylab="yRisks");
-#       textxy(x,y,mdm[,"Country.Name"]);
-#     }
-#   })
-#   
+  # Risk Room Floor
   output$mdm <- renderPlot({
     if (length(rMDMTable()) > 0)  {
       mdm <- rMDMTable();
