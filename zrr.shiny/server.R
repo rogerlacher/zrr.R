@@ -1,10 +1,3 @@
-library(shiny)
-library(googleVis)
-library(calibrate)
-#library(WDI)
-library(ggplot2)
-library(reshape2)
-library(gridExtra)
 
 # server logic for ZRR
 shinyServer(function(input, output) {
@@ -14,11 +7,21 @@ shinyServer(function(input, output) {
   rMDMTable <- reactive({
     if(length(input$countries)>0 && length(input$xRisks)>0  && length(input$yRisks)> 0) {
       # subset dataset by selected input countries
-      r1 <- subset(r,Country.Name %in% input$countries)
+      #r1 <- subset(r,Country.Name %in% input$countries)
       # restrict to selected timestamp
-      r1 <- subset(r1,Date == levels(r[,"Date"])[input$timeIndex])      
+      #r1 <- subset(r1,Date == levels(r[,"Date"])[input$timeIndex])      
       # call the rMDM algorithm    
-      rMDM_Motion(r1,match(input$xRisks, colnames(r)), match(input$yRisks, colnames(r)))      
+      #rMDM_Motion(r1,match(input$xRisks, colnames(r)), match(input$yRisks, colnames(r)))
+      
+      # TODO: This is all very inefficient, as the same things are calculated over and over 
+      #       again:
+      #      -> match(risks|countries)   -> only used here to get positions
+      #                                  -> positions are then again used to look up values
+      #                                     such as risk %in% risklevels[p] in function rMDMm
+      #              -> simplify the expression: "risk %in% risklevels[match(input$xRisks,risklevels)]"
+      #rMDMm_Motion(rm,input$timeIndex,match(input$xRisks,risklevels),
+      #             match(input$yRisks,risklevels),match(input$countries,countrylevels))
+      rMDMmS(rm,input$timeIndex,input$xRisks,input$yRisks,input$countries)
      }
   })
   
@@ -36,9 +39,9 @@ shinyServer(function(input, output) {
   # Risk Walls
   output$walls <- renderPlot({
     # restrict molten dataset to selected timestamp
-    rmx <- subset(rm,Date == levels(r[,"Date"])[input$timeIndex] & risk %in% input$xRisks)
+    rmx <- subset(rm,Date == levels(rm[,"Date"])[input$timeIndex] & risk %in% input$xRisks)
     rmxc <- subset(rmx,Country.Name %in% input$countries)
-    rmy = subset(rm,Date == levels(r[,"Date"])[input$timeIndex] & risk %in% input$yRisks)
+    rmy = subset(rm,Date == levels(rm[,"Date"])[input$timeIndex] & risk %in% input$yRisks)
     rmyc <- subset(rmy,Country.Name %in% input$countries)
     
     xRisks <- ggplot() + geom_boxplot(data=rmx,aes(x=risk,y=value)) + xlab("x-Risks") + ylab("Value")

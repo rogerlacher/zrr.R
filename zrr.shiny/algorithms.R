@@ -66,12 +66,24 @@ rMDM_Motion <- function(r,p,q,sF=0.1) {
   return(cbind(Country.Name=mdm[,"Country.Name"],Date=as.Date(mdm[,"Date"]),Continent=mdm[,"Continent"],mdm[,c("qx","qy")]))
 }
 
+rMDMm_Motion <- function(rm,t,p,q,c,sF=0.1) {
+  # TODO: implement this properly
+  # for now:
+  mdm <- rMDMm(rm,t,p,q,c,sF=0.1)
+  
+  # TODO: This is very inefficient, as the same subsetting has already been done
+  #       in the rMDMm calculation itself. So better change the return value of 
+  #       rMDMm to be include all these columns than to subset again & cbind....
+  rms <- subset(rm,Date == datelevels[t] & risk %in% risklevels[c(p,q)])
+  return(cbind(rms[c,c("Country.Name","Date","Continent")],mdm))  
+}
+
 # calculcate the rMDM of a matrix of country coordinates
 #   params:   r = matrix of countries (rows) and risk values (cols)
 #             p = index-vector (numeric) for MDM x-projection
 #             q = index-vector (numeric) for MDM y-projection
 #             sF = scaling factor (defaults to 0.1)
-#   returns:  c(u,v) = rMDM projection coordinates
+#   returns:  c(qx,qy) = rMDM projection coordinates
 # ==================================================================
 rMDM <- function(r,p,q,sF=0.1) {
   ret <- vector();  
@@ -109,7 +121,7 @@ rMDMOneEntity <- function(r,p,q) {
   ln <- l2(r_);
   la <- l2(r_ - 1);
   lx <- l2(r[p] - 1) + l2(r[q]);
-  ly <- l2(r[q] - 1) + l2(r[p]);
+  ly <- l2(r[q] - 1) + l2(r[p]);  
   
   h <- 0.5*(ln-ly+sy*sy)/sy;
   g <- 0.5*(ly-la+sx*sx)/sx;
@@ -118,6 +130,96 @@ rMDMOneEntity <- function(r,p,q) {
   v <- 0.5*(-sqrt(T+ly-g*g) + sqrt(T+ln-g*g) + sy)/sy;
   
   ret <- c(u,v);
+  #ret
+  ln
+}
+
+# calculcate the countries rMDM positions from the molten dataset rm (-> global.R)
+#   params:   rm = a molten dataset containing columns "Date", "Code", "risk" and "value"
+#             t = factor level (numeric) "Date"
+#             p = factor levels (numeric) for "risk" (MDM x-projection)
+#             q = factor levels (numeric) for "risk" (MDM y-projection)
+#             c = factor levels (numeric) for "Code" (MDM focus countries)
+#             sF = scaling factor (defaults to 0.1)
+#   returns:  c(u,v) = rMDM projection coordinates
+# ==================================================================
+rMDMm <- function(rm,t,p,q,c,sF=1) {
+  # restrict molten dataset to selected timestamp, risks and countries
+  
+  #TODO: check correctness of calculations!!
+  
+  rmx <- subset(rm,Date == datelevels[t] & risk %in% risklevels[p])
+  rmy <- subset(rm,Date == datelevels[t] & risk %in% risklevels[q])
+  rma <- rbind(rmx, rmy)  
+  
+  epsilon <- 10^-8;
+  
+  sx = sqrt(length(p));
+  sy = sqrt(length(q));
+  
+  ln <- aggregate(x=rma[,"value"],by=list(rma[,"Code"]),FUN=l2)[,2]
+  la <- aggregate(x=rma[,"value"]-1,by=list(rma[,"Code"]),FUN=l2)[,2]
+  lx <- aggregate(x=rmx[,"value"]-1,by=list(rmx[,"Code"]),FUN=l2)[,2] + aggregate(x=rmy[,"value"],by=list(rmy[,"Code"]),FUN=l2)[,2] 
+  ly <- aggregate(x=rmy[,"value"]-1,by=list(rmy[,"Code"]),FUN=l2)[,2] + aggregate(x=rmx[,"value"],by=list(rmx[,"Code"]),FUN=l2)[,2]
+  
+  h <- 0.5*(ln-ly+sy*sy)/sy;
+  g <- 0.5*(ly-la+sx*sx)/sx;
+  
+  u <- 0.5*(-sqrt(epsilon+lx-h*h) + sqrt(epsilon+ln-h*h) + sx)/sx;
+  v <- 0.5*(-sqrt(epsilon+ly-g*g) + sqrt(epsilon+ln-g*g) + sy)/sy;
+  
+  ret <- cbind(u,v);
+  
+  # rescale
+  ret[,1] = sF + (1-2*sF) * (ret[,1] - min(ret[,1])) / (max(ret[,1]) - min(ret[,1]))
+  ret[,2] = sF + (1-2*sF) * (ret[,2] - min(ret[,2])) / (max(ret[,2]) - min(ret[,2]))  
+  # restrict to the selected countries 
+  ret <-ret[c,]
+  
+  ret
+}
+
+# a "shiny-optimized" version of the rMDMm function using directly the input that's available
+# from the ui.R input fields (input$xRisks, input$yRisks, input$countries...)
+#   params:   rm = a molten dataset containing columns "Date", "Country.Names", "Code", "risk" and "value"
+#             t = factor level (numeric) "Date"
+#             xRisks -> risks for MDM x-projection
+#             yRisks -> risks for MDM y-projection
+#             countries -> countries to select
+#             sF = scaling factor (defaults to 0.1)
+#   returns:  c("Date","Country.Names","risk",u,v) -> rMDM projection coordinates
+# ==================================================================
+rMDMmS <- function(rm,t,xRisks,yRisks,countries,sF=1) {
+  # restrict molten dataset to selected timestamp, risks and countries
+  
+  #TODO: check correctness of calculations!!
+  
+  rmx <- subset(rm,Date == datelevels[t] & risk %in% xRisks)
+  rmy <- subset(rm,Date == datelevels[t] & risk %in% yRisks)
+  rma <- rbind(rmx, rmy)  
+  
+  epsilon <- 10^-8;
+  
+  sx = sqrt(length(xRisks));
+  sy = sqrt(length(yRisks));
+  
+  ln <- aggregate(x=rma[,"value"],by=list(rma[,"Country.Name"]),FUN=l2)[,2]
+  la <- aggregate(x=rma[,"value"]-1,by=list(rma[,"Country.Name"]),FUN=l2)[,2]
+  lx <- aggregate(x=rmx[,"value"]-1,by=list(rmx[,"Country.Name"]),FUN=l2)[,2] + aggregate(x=rmy[,"value"],by=list(rmy[,"Country.Name"]),FUN=l2)[,2] 
+  ly <- aggregate(x=rmy[,"value"]-1,by=list(rmy[,"Country.Name"]),FUN=l2)[,2] + aggregate(x=rmx[,"value"],by=list(rmx[,"Country.Name"]),FUN=l2)[,2]
+  
+  h <- 0.5*(ln-ly+sy*sy)/sy;
+  g <- 0.5*(ly-la+sx*sx)/sx;
+  
+  qx <- 0.5*(-sqrt(epsilon+lx-h*h) + sqrt(epsilon+ln-h*h) + sx)/sx;
+  qy <- 0.5*(-sqrt(epsilon+ly-g*g) + sqrt(epsilon+ln-g*g) + sy)/sy;
+  ret <- cbind(unique(rma[,c("Country.Name","Date","Continent")]),qx,qy)
+  
+  # rescale
+  ret[,"qx"] = sF + (1-2*sF) * (ret[,"qx"] - min(ret[,"qx"])) / (max(ret[,"qx"]) - min(ret[,"qx"]))
+  ret[,"qy"] = sF + (1-2*sF) * (ret[,"qy"] - min(ret[,"qy"])) / (max(ret[,"qy"]) - min(ret[,"qy"]))  
+  
+  ret <- subset(ret,Country.Name %in% countries)
   ret
 }
 
