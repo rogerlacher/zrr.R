@@ -21,6 +21,19 @@ shinyServer(function(input, output) {
     p1$plotOptions(
       series = list(
         cursor = "ns-resize",
+        point = list(
+          events = list(
+            drag = "#! function() { $('#drag').html(
+                            'Dragging <b>' + this.series.name + '</b>, <b>' +
+                            this.category + '</b> to <b>' + 
+                            Highcharts.numberFormat(e.newY, 2) + '</b>'
+                        ); } !#",
+            drop = "#! function() { $('#drop').html(
+                            'In <b>' + this.series.name + '</b>, <b>' +
+                            this.category + '</b> was set to <b>' + 
+                            Highcharts.numberFormat(this.y, 2) + '</b>'
+                        ); } !#"  )
+          ),
         stickyTracking = TRUE
       )
     )
