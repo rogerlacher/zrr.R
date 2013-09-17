@@ -4,7 +4,10 @@ library(shiny)
 
 includeDraggableJS <- function() {
   tagList(tags$head(
-    tags$script(src = "https://rawgithub.com/highslide-software/draggable-points/master/draggable-points.js")
+    #tags$script(src = "https://rawgithub.com/highslide-software/draggable-points/master/draggable-points.js"),
+    tags$script(src = "js/draggable-points.js"),
+    tags$script(src = "js/drag.js"),
+    tags$script(src = "js/whatif.js")
   ))
 }
 
@@ -28,7 +31,8 @@ shinyUI(pageWithSidebar(
     selectInput(inputId = "y",
                 label = "Choose Y",
                 choices = c('SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth'),
-                selected = "SepalWidth")
+                selected = "SepalWidth"),
+    tag("div",list(id="drag", class="drag"))
   ),
   
   # Show a plot of the generated distribution
@@ -36,7 +40,8 @@ shinyUI(pageWithSidebar(
     tabsetPanel(
       tabPanel("DistPlot", plotOutput("distPlot")),
       tabPanel("rChart",showOutput("polyChart", "polycharts")),
-      tabPanel("rChart",showOutput("highChart", "highcharts"))
+      tabPanel("rChart",showOutput("highChart", "highcharts")),
+      tabPanel("Echo",verbatimTextOutput("echoDrag"))
       ),
     includeDraggableJS()
   )

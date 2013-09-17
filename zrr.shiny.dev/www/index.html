@@ -4,6 +4,8 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <script src="shared/jquery.js" type="text/javascript"></script>
   <script src="shared/shiny.js" type="text/javascript"></script>
+  <script src="js/drag.js" type="text/javascript"></script>
+  <script src="js/whatif.js" type="text/javascript"></script>
   <link rel="stylesheet" type="text/css" href="shared/shiny.css"/>
   <link rel="stylesheet" type="text/css" href="shared/slider/css/jquery.slider.min.css"/>
   <script src="shared/slider/js/jquery.slider.min.js"></script>
@@ -44,12 +46,12 @@
           <option value="PetalWidth">PetalWidth</option>
         </select>
         
-        <div id="drag"></div>
+        <div id="drag" class="drag"></div>
         <div id="drop"></div>
       </form>
     </div>
     <div class="span8">
-      <div class="tabbable">
+      <div class="tabbable" style="-webkit-box-reflect: below;">
         <ul class="nav nav-tabs">
           <li class="active">
             <a href="#tab-8188-1" data-toggle="tab">DistPlot</a>
@@ -59,6 +61,9 @@
           </li>
           <li>
             <a href="#tab-8188-3" data-toggle="tab">rChart</a>
+          </li>
+          <li>
+            <a href="#tab-8188-4" data-toggle="tab">Echo</a>
           </li>
         </ul>
         <div class="tab-content">
@@ -73,6 +78,9 @@
             <div id="highChart" class="shiny-html-output highcharts">
             </div>
           </div>
+          <div class="tab-pane" title="Echo" id="tab-8188-4">
+            <pre id="echoDrag" class="shiny-text-output"></pre>
+           </div>          
         </div>
       </div>
     </div>

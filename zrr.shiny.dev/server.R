@@ -23,17 +23,20 @@ shinyServer(function(input, output) {
         cursor = "ns-resize",
         point = list(
           events = list(
-            drag = "#! function() { $('#drag').html(
+            drag = "#! function() {  $('#drag').html( 
                             'Dragging <b>' + this.series.name + '</b>, <b>' +
                             this.category + '</b> to <b>' + 
                             Highcharts.numberFormat(e.newY, 2) + '</b>'
                         ); } !#",
-            drop = "#! function() { $('#drop').html(
-                            'In <b>' + this.series.name + '</b>, <b>' +
-                            this.category + '</b> was set to <b>' + 
-                            Highcharts.numberFormat(this.y, 2) + '</b>'
-                        ); } !#"  )
-          ),
+            drop = "#! function() { whatif(this); } !#" )
+        # TODO: need to figure out how to hand over the delta between starting / end position
+        #       possibly best to adapt the draggable-points.js 
+#            drop = "#! function() { $('#drop').html(
+#                            'In <b>' + this.series.name + '</b>, <b>' +
+#                            this.category + '</b> was set to <b>' + 
+#                            Highcharts.numberFormat(this.y, 2) + '</b>'
+#                        ); } !#"  )
+         ),
         stickyTracking = TRUE
       )
     )
@@ -54,5 +57,9 @@ shinyServer(function(input, output) {
     # generate an rnorm distribution and plot it
     dist <- rnorm(input$obs)
     hist(dist)
+  })
+  
+  output$echoDrag <- renderPrint({
+    print(input$drag)
   })
 })
