@@ -4,8 +4,6 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <script src="shared/jquery.js" type="text/javascript"></script>
   <script src="shared/shiny.js" type="text/javascript"></script>
-  <script src="js/drag.js" type="text/javascript"></script>
-  <script src="js/whatif.js" type="text/javascript"></script>
   <link rel="stylesheet" type="text/css" href="shared/shiny.css"/>
   <link rel="stylesheet" type="text/css" href="shared/slider/css/jquery.slider.min.css"/>
   <script src="shared/slider/js/jquery.slider.min.js"></script>
@@ -13,76 +11,275 @@
   <script src="shared/bootstrap/js/bootstrap.min.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" type="text/css" href="shared/bootstrap/css/bootstrap-responsive.min.css"/>
-  <title>Hello Shiny!</title>
-  <script src="polycharts/js/polychart2.standalone.js" type="text/javascript"></script>
-  <script src="highcharts/js/highcharts.js" type="text/javascript"></script>
-  <script src="highcharts/js/highcharts-more.js" type="text/javascript"></script>
-  <script src="https://rawgithub.com/highslide-software/draggable-points/master/draggable-points.js" type="text/javascript"></script>
+  <title>Zurich Risk Room Prototype</title>
+  <script src="Highcharts/js/highcharts.js" type="text/javascript"></script>
+  <script src="Highcharts/js/highcharts-more.js" type="text/javascript"></script>
+  <script src="js/draggable-points.js"></script>
+  <script src="js/whatif.js"></script>
 </head>
 <body>
 <div class="container-fluid">
   <div class="row-fluid">
     <div class="span12" style="padding: 10px 0px;">
-      <h1>Hello Shiny!</h1>
+      <h1>Zurich Risk Room Prototype</h1>
     </div>
   </div>
   <div class="row-fluid">
     <div class="span4">
       <form class="well">
-        <label class="control-label" for="obs">Number of observations:</label>
-        <input id="obs" type="slider" name="obs" value="500" class="jslider" data-from="1" data-to="1000" data-step="1" data-skin="plastic" data-round="false" data-locale="us" data-format="#,##0.#####" data-smooth="false"/>
-        <label class="control-label" for="x">Choose X</label>
-        <select id="x">
-          <option value="SepalLength" selected="selected">SepalLength</option>
-          <option value="SepalWidth">SepalWidth</option>
-          <option value="PetalLength">PetalLength</option>
-          <option value="PetalWidth">PetalWidth</option>
+        <label class="control-label" for="countries">Choose your Countries:</label>
+        <select id="countries" multiple="multiple">
+          <option value="Albania">Albania</option>
+          <option value="Angola">Angola</option>
+          <option value="Argentina">Argentina</option>
+          <option value="Australia">Australia</option>
+          <option value="Austria">Austria</option>
+          <option value="Azerbaijan">Azerbaijan</option>
+          <option value="Bahrain">Bahrain</option>
+          <option value="Bangladesh">Bangladesh</option>
+          <option value="Belgium">Belgium</option>
+          <option value="Belize">Belize</option>
+          <option value="Bhutan">Bhutan</option>
+          <option value="Bolivia">Bolivia</option>
+          <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+          <option value="Botswana">Botswana</option>
+          <option value="Brazil">Brazil</option>
+          <option value="Bulgaria">Bulgaria</option>
+          <option value="Cambodia">Cambodia</option>
+          <option value="Canada">Canada</option>
+          <option value="Chile">Chile</option>
+          <option value="China">China</option>
+          <option value="Colombia">Colombia</option>
+          <option value="Cote d&#39;Ivoire">Cote d'Ivoire</option>
+          <option value="Croatia">Croatia</option>
+          <option value="Cyprus">Cyprus</option>
+          <option value="Czech Republic">Czech Republic</option>
+          <option value="Denmark">Denmark</option>
+          <option value="Ecuador">Ecuador</option>
+          <option value="Egypt">Egypt</option>
+          <option value="Estonia">Estonia</option>
+          <option value="Finland">Finland</option>
+          <option value="France">France</option>
+          <option value="Georgia">Georgia</option>
+          <option value="Germany">Germany</option>
+          <option value="Ghana">Ghana</option>
+          <option value="Greece">Greece</option>
+          <option value="Honduras">Honduras</option>
+          <option value="Hong Kong">Hong Kong</option>
+          <option value="Hungary">Hungary</option>
+          <option value="Iceland">Iceland</option>
+          <option value="India">India</option>
+          <option value="Indonesia">Indonesia</option>
+          <option value="Iraq">Iraq</option>
+          <option value="Ireland">Ireland</option>
+          <option value="Israel">Israel</option>
+          <option value="Italy">Italy</option>
+          <option value="Jamaica">Jamaica</option>
+          <option value="Japan">Japan</option>
+          <option value="Jordan">Jordan</option>
+          <option value="Kazakhstan">Kazakhstan</option>
+          <option value="Kenya">Kenya</option>
+          <option value="Korea, Republic of">Korea, Republic of</option>
+          <option value="Kosovo">Kosovo</option>
+          <option value="Kuwait">Kuwait</option>
+          <option value="Kyrgyz Republic">Kyrgyz Republic</option>
+          <option value="Latvia">Latvia</option>
+          <option value="Lebanon">Lebanon</option>
+          <option value="Libya">Libya</option>
+          <option value="Lithuania">Lithuania</option>
+          <option value="Luxembourg">Luxembourg</option>
+          <option value="Macedonia">Macedonia</option>
+          <option value="Malaysia">Malaysia</option>
+          <option value="Malta">Malta</option>
+          <option value="Mauritius">Mauritius</option>
+          <option value="Mexico">Mexico</option>
+          <option value="Moldova">Moldova</option>
+          <option value="Montenegro">Montenegro</option>
+          <option value="Morocco">Morocco</option>
+          <option value="Mozambique">Mozambique</option>
+          <option value="Netherlands">Netherlands</option>
+          <option value="New Zealand">New Zealand</option>
+          <option value="Nigeria">Nigeria</option>
+          <option value="Norway">Norway</option>
+          <option value="Oman">Oman</option>
+          <option value="Pakistan">Pakistan</option>
+          <option value="Panama">Panama</option>
+          <option value="Peru">Peru</option>
+          <option value="Philippines">Philippines</option>
+          <option value="Poland">Poland</option>
+          <option value="Portugal">Portugal</option>
+          <option value="Qatar">Qatar</option>
+          <option value="Romania">Romania</option>
+          <option value="Russia">Russia</option>
+          <option value="Saudi Arabia">Saudi Arabia</option>
+          <option value="Serbia">Serbia</option>
+          <option value="Singapore">Singapore</option>
+          <option value="Slovakia">Slovakia</option>
+          <option value="Slovenia">Slovenia</option>
+          <option value="South Africa">South Africa</option>
+          <option value="Spain">Spain</option>
+          <option value="Sri Lanka">Sri Lanka</option>
+          <option value="Sweden">Sweden</option>
+          <option value="Switzerland">Switzerland</option>
+          <option value="Syria">Syria</option>
+          <option value="Taiwan ">Taiwan </option>
+          <option value="Tajikistan">Tajikistan</option>
+          <option value="Tanzania">Tanzania</option>
+          <option value="Thailand">Thailand</option>
+          <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+          <option value="Tunisia">Tunisia</option>
+          <option value="Turkey">Turkey</option>
+          <option value="Turkmenistan">Turkmenistan</option>
+          <option value="Uganda">Uganda</option>
+          <option value="Ukraine">Ukraine</option>
+          <option value="United Kingdom">United Kingdom</option>
+          <option value="United States">United States</option>
+          <option value="Uruguay">Uruguay</option>
+          <option value="Venezuela">Venezuela</option>
+          <option value="Vietnam">Vietnam</option>
+          <option value="United Arab Emirates">United Arab Emirates</option>
+          <option value="Afghanistan">Afghanistan</option>
+          <option value="Algeria">Algeria</option>
+          <option value="Armenia">Armenia</option>
+          <option value="Bahamas, the">Bahamas, the</option>
+          <option value="Barbados">Barbados</option>
+          <option value="Belarus">Belarus</option>
+          <option value="Benin">Benin</option>
+          <option value="Bermuda">Bermuda</option>
+          <option value="Brunei Darussalam">Brunei Darussalam</option>
+          <option value="Burkina Faso">Burkina Faso</option>
+          <option value="Burundi">Burundi</option>
+          <option value="Cameroon">Cameroon</option>
+          <option value="Central African Republic">Central African Republic</option>
+          <option value="Chad">Chad</option>
+          <option value="Congo, Dem. Rep.">Congo, Dem. Rep.</option>
+          <option value="Congo">Congo</option>
+          <option value="Costa Rica">Costa Rica</option>
+          <option value="Cuba">Cuba</option>
+          <option value="Djibouti">Djibouti</option>
+          <option value="Dominican Republic">Dominican Republic</option>
+          <option value="El Salvador">El Salvador</option>
+          <option value="Equatorial Guinea">Equatorial Guinea</option>
+          <option value="Eritrea">Eritrea</option>
+          <option value="Ethiopia">Ethiopia</option>
+          <option value="Gabon">Gabon</option>
+          <option value="Gambia, The">Gambia, The</option>
+          <option value="Guatemala">Guatemala</option>
+          <option value="Guinea">Guinea</option>
+          <option value="Guinea-Bissau">Guinea-Bissau</option>
+          <option value="Guyana">Guyana</option>
+          <option value="Haiti">Haiti</option>
+          <option value="Iran">Iran</option>
+          <option value="Korea, Dem. Rep.">Korea, Dem. Rep.</option>
+          <option value="Lao PDR">Lao PDR</option>
+          <option value="Lesotho">Lesotho</option>
+          <option value="Liberia">Liberia</option>
+          <option value="Macau">Macau</option>
+          <option value="Madagascar">Madagascar</option>
+          <option value="Malawi">Malawi</option>
+          <option value="Mali">Mali</option>
+          <option value="Mauritania">Mauritania</option>
+          <option value="Monaco">Monaco</option>
+          <option value="Mongolia">Mongolia</option>
+          <option value="Myanmar">Myanmar</option>
+          <option value="Namibia">Namibia</option>
+          <option value="Nepal">Nepal</option>
+          <option value="Nicaragua">Nicaragua</option>
+          <option value="Niger">Niger</option>
+          <option value="Papua New Guinea">Papua New Guinea</option>
+          <option value="Paraguay">Paraguay</option>
+          <option value="Puerto Rico">Puerto Rico</option>
+          <option value="Rwanda">Rwanda</option>
+          <option value="Sao Tome and Principe">Sao Tome and Principe</option>
+          <option value="Senegal">Senegal</option>
+          <option value="Sierra Leone">Sierra Leone</option>
+          <option value="Somalia">Somalia</option>
+          <option value="Sudan">Sudan</option>
+          <option value="Suriname">Suriname</option>
+          <option value="Swaziland">Swaziland</option>
+          <option value="Timor-Leste">Timor-Leste</option>
+          <option value="Uzbekistan">Uzbekistan</option>
+          <option value="West Bank and Gaza">West Bank and Gaza</option>
+          <option value="Yemen">Yemen</option>
+          <option value="Zambia">Zambia</option>
+          <option value="Zimbabwe">Zimbabwe</option>
         </select>
-        <label class="control-label" for="y">Choose Y</label>
-        <select id="y">
-          <option value="SepalLength">SepalLength</option>
-          <option value="SepalWidth" selected="selected">SepalWidth</option>
-          <option value="PetalLength">PetalLength</option>
-          <option value="PetalWidth">PetalWidth</option>
+        <label class="control-label" for="xRiskCategory">Choose x risks Category:</label>
+        <select id="xRiskCategory">
+          <option value="Business Risks" selected="selected">Business Risks</option>
+          <option value="Economic Risks">Economic Risks</option>
+          <option value="Environmental Risks">Environmental Risks</option>
+          <option value="Political Risks">Political Risks</option>
+          <option value="Social Risks">Social Risks</option>
+          <option value="Technical Risks">Technical Risks</option>
         </select>
-        
+        <div id="xRisks" class="shiny-html-output"></div>
+        <label class="control-label" for="yRiskCategory">Choose y risks Category:</label>
+        <select id="yRiskCategory">
+          <option value="Business Risks" selected="selected">Business Risks</option>
+          <option value="Economic Risks">Economic Risks</option>
+          <option value="Environmental Risks">Environmental Risks</option>
+          <option value="Political Risks">Political Risks</option>
+          <option value="Social Risks">Social Risks</option>
+          <option value="Technical Risks">Technical Risks</option>
+        </select>
+        <div id="yRisks" class="shiny-html-output"></div>
+        <div>
+          <label class="control-label" for="period">Choose Time:</label>
+          <input id="period" type="slider" name="period" value="1" class="jslider" data-from="1" data-to="78" data-step="1" data-skin="plastic" data-round="false" data-locale="us" data-format="#,##0.#####" data-smooth="false"/>
+        </div>
         <div id="drag" class="drag"></div>
-        <div id="drop"></div>
       </form>
     </div>
-    <div class="span8">
-      <div class="tabbable" style="-webkit-box-reflect: below;">
+    <div style="-webkit-perspective: 400px;"  class="span8">
+      <!--<div class="tabbable">
         <ul class="nav nav-tabs">
           <li class="active">
-            <a href="#tab-8188-1" data-toggle="tab">DistPlot</a>
+            <a href="#tab-3480-1" data-toggle="tab">MDM Plot</a>
           </li>
           <li>
-            <a href="#tab-8188-2" data-toggle="tab">rChart</a>
+            <a href="#tab-3480-2" data-toggle="tab">x Risk Walls</a>
           </li>
           <li>
-            <a href="#tab-8188-3" data-toggle="tab">rChart</a>
+            <a href="#tab-3480-3" data-toggle="tab">y Risk Walls</a>
           </li>
           <li>
-            <a href="#tab-8188-4" data-toggle="tab">Echo</a>
+            <a href="#tab-3480-4" data-toggle="tab">Values Table</a>
           </li>
         </ul>
         <div class="tab-content">
-          <div class="tab-pane active" title="DistPlot" id="tab-8188-1">
-            <div id="distPlot" class="shiny-plot-output" style="width: 100% ; height: 400px"></div>
-          </div>
-          <div class="tab-pane" title="rChart" id="tab-8188-2">
-            <div id="polyChart" class="shiny-html-output polycharts">
+          <div class="tab-pane active" title="MDM Plot" id="tab-3480-1">
+            <div id="mdmPlot" class="shiny-html-output Highcharts">
             </div>
           </div>
-          <div class="tab-pane" title="rChart" id="tab-8188-3">
-            <div id="highChart" class="shiny-html-output highcharts">
+          <div class="tab-pane" title="x Risk Walls" id="tab-3480-2">
+            <div id="xRiskWall" class="shiny-html-output Highcharts">
             </div>
           </div>
-          <div class="tab-pane" title="Echo" id="tab-8188-4">
-            <pre id="echoDrag" class="shiny-text-output"></pre>
-           </div>          
+          <div class="tab-pane" title="y Risk Walls" id="tab-3480-3">
+            <div id="yRiskWall" class="shiny-html-output Highcharts">
+            </div>
+          </div>
+          <div class="tab-pane" title="Values Table" id="tab-3480-4">
+            <div id="table" class="shiny-html-output"></div>
+          </div>
         </div>
-      </div>
+      </div> -->
+          <div style= "-webkit-transform: rotateX(45deg); -webkit-transform-origin: 50% 80%;"  id="tab-3480-1">
+            <div id="mdmPlot" class="shiny-html-output Highcharts">
+            </div>
+          </div>
+          <div id="tab-3480-2">
+            <div id="xRiskWall" class="shiny-html-output Highcharts">
+            </div>
+          </div>
+          <div id="tab-3480-3">
+            <div id="yRiskWall" class="shiny-html-output Highcharts">
+            </div>
+          </div>
+          <div id="tab-3480-4">
+            <div id="table" class="shiny-html-output"></div>
+          </div>
     </div>
   </div>
 </div>

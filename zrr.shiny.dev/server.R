@@ -16,7 +16,7 @@ shinyServer(function(input, output) {
       xrIds <- subset(risknames, INDICATOR_NAME %in% input$xRisks, select=INDICATOR_ID)
       xrIds <- paste(xrIds[,1],collapse=",")    
       query <- paste("SELECT FK_INDICATOR, FK_GEO_UNIT, INDICATOR_VALUE, 'x' as WALL ",
-                     "FROM RR_INDICATOR_VALUE",tblext[envId]," ",
+                     "FROM RR_INDICATOR_VALUE"," ",
                      "WHERE FK_TIME_PERIOD = ",period," ",
                      "AND FK_INDICATOR IN (", as.character(xrIds),")",sep="")
       xRisks  <- sqlQuery(con,query)
@@ -28,7 +28,7 @@ shinyServer(function(input, output) {
       yrIds <- subset(risknames, INDICATOR_NAME %in% input$yRisks, select=INDICATOR_ID)
       yrIds <- paste(yrIds[,1],collapse=",")
       query <- paste("SELECT FK_INDICATOR, FK_GEO_UNIT, INDICATOR_VALUE, 'y' as WALL ",
-                     "FROM RR_INDICATOR_VALUE",tblext[envId]," ",
+                     "FROM RR_INDICATOR_VALUE"," ",
                      "WHERE FK_TIME_PERIOD = ",period," ",
                      "AND FK_INDICATOR IN (", as.character(yrIds),")",sep="")
       yRisks  <- sqlQuery(con,query)
@@ -188,7 +188,7 @@ riskWallPlot <- function(..., radius = 3, title = NULL, subtitle = NULL, group.n
         cursor = "ns-resize",
         point = list(
           events = list(
-            drop = "#! function() { whatif(this); } !#" )
+            drop = "#! function() { LibZRR.whatif(this); } !#" )
         ),
         stickyTracking = TRUE        
       )       
@@ -230,6 +230,10 @@ riskWallPlot <- function(..., radius = 3, title = NULL, subtitle = NULL, group.n
   rChart$subtitle(text = subtitle, replace = T)
   
   
+  ## load event -> trigger copy of data onto javascript data structures
+  rChart$chart(events = list(
+      load = "#! function() { LibZRR.copyWallData(this); } !#" )
+  )
   
   return(rChart$copy())
 }
