@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <script src="shared/jquery.js" type="text/javascript"></script>
+  <script src="shared/shiny.js" type="text/javascript"></script>
+  <link rel="stylesheet" type="text/css" href="shared/shiny.css"/>
+  <link rel="stylesheet" type="text/css" href="shared/slider/css/jquery.slider.min.css"/>
+  <script src="shared/slider/js/jquery.slider.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="shared/bootstrap/css/bootstrap.min.css"/>
+  <script src="shared/bootstrap/js/bootstrap.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" type="text/css" href="shared/bootstrap/css/bootstrap-responsive.min.css"/>
+  <title>Zurich Risk Room Prototype</title>
+  <script src="Highcharts/js/highcharts.js" type="text/javascript"></script>
+  <script src="Highcharts/js/highcharts-more.js" type="text/javascript"></script>
+  <script src="js/draggable-points.js"></script>
+  <script src="js/whatif.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span12" style="padding: 10px 0px;">
+      <h1>Zurich Risk Room Prototype</h1>
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="span4">
+      <form class="well">
+        <label class="control-label" for="countries">Choose your Countries:</label>
+        <select id="countries" multiple="multiple">
+          <option value="Afghanistan">Afghanistan</option>
+          <option value="Albania">Albania</option>
+          <option value="Algeria">Algeria</option>
+          <option value="Angola">Angola</option>
+          <option value="Argentina">Argentina</option>
+          <option value="Armenia">Armenia</option>
+          <option value="Australia">Australia</option>
+          <option value="Austria">Austria</option>
+          <option value="Azerbaijan">Azerbaijan</option>
+          <option value="Bangladesh">Bangladesh</option>
+          <option value="Barbados">Barbados</option>
+          <option value="Burundi">Burundi</option>
+          <option value="Belgium">Belgium</option>
+          <option value="Benin">Benin</option>
+          <option value="Bhutan">Bhutan</option>
+          <option value="Bosnia Herzeg.">Bosnia Herzeg.</option>
+          <option value="Belize">Belize</option>
+          <option value="Belarus">Belarus</option>
+          <option value="Bolivia">Bolivia</option>
+          <option value="Botswana">Botswana</option>
+          <option value="Brazil">Brazil</option>
+          <option value="Bahrain">Bahrain</option>
+          <option value="Bulgaria">Bulgaria</option>
+          <option value="Burkina Faso">Burkina Faso</option>
+          <option value="Cambodia">Cambodia</option>
+          <option value="Canada">Canada</option>
+          <option value="Congo">Congo</option>
+          <option value="TCD">TCD</option>
+          <option value="CHL">CHL</option>
+          <option value="CHN">CHN</option>
+          <option value="CIV">CIV</option>
+          <option value="CMR">CMR</option>
+          <option value="COD">COD</option>
+          <option value="COL">COL</option>
+          <option value="CRI">CRI</option>
+          <option value="HRV">HRV</option>
+          <option value="CUB">CUB</option>
+          <option value="CYP">CYP</option>
+          <option value="CZE">CZE</option>
+          <option value="DNK">DNK</option>
+          <option value="DOM">DOM</option>
+          <option value="ECU">ECU</option>
+          <option value="EGY">EGY</option>
+          <option value="ERI">ERI</option>
+          <option value="SLV">SLV</option>
+          <option value="ESP">ESP</option>
+          <option value="EST">EST</option>
+          <option value="ETH">ETH</option>
+          <option value="FIN">FIN</option>
+          <option value="FRA">FRA</option>
+          <option value="GMB">GMB</option>
+          <option value="GBR">GBR</option>
+          <option value="GEO">GEO</option>
+          <option value="DEU">DEU</option>
+          <option value="GHA">GHA</option>
+          <option value="GRC">GRC</option>
+          <option value="GTM">GTM</option>
+          <option value="GUY">GUY</option>
+          <option value="HTI">HTI</option>
+          <option value="HKG">HKG</option>
+          <option value="HND">HND</option>
+          <option value="HUN">HUN</option>
+          <option value="IDN">IDN</option>
+          <option value="IND">IND</option>
+          <option value="IRN">IRN</option>
+          <option value="IRL">IRL</option>
+          <option value="IRQ">IRQ</option>
+          <option value="ISL">ISL</option>
+          <option value="ISR">ISR</option>
+          <option value="ITA">ITA</option>
+          <option value="JAM">JAM</option>
+          <option value="JOR">JOR</option>
+          <option value="JPN">JPN</option>
+          <option value="KAZ">KAZ</option>
+          <option value="KEN">KEN</option>
+          <option value="KGZ">KGZ</option>
+          <option value="KOR">KOR</option>
+          <option value="SAU">SAU</option>
+          <option value="KWT">KWT</option>
+          <option value="LAO">LAO</option>
+          <option value="LVA">LVA</option>
+          <option value="LBY">LBY</option>
+          <option value="LBR">LBR</option>
+          <option value="LSO">LSO</option>
+          <option value="LBN">LBN</option>
+          <option value="LTU">LTU</option>
+          <option value="LUX">LUX</option>
+          <option value="MDG">MDG</option>
+          <option value="MAR">MAR</option>
+          <option value="MYS">MYS</option>
+          <option value="MWI">MWI</option>
+          <option value="MDA">MDA</option>
+          <option value="MEX">MEX</option>
+          <option value="MNG">MNG</option>
+          <option value="MKD">MKD</option>
+          <option value="96">96</option>
+          <option value="97">97</option>
+          <option value="98">98</option>
+          <option value="99">99</option>
+          <option value="100">100</option>
+          <option value="101">101</option>
+          <option value="102">102</option>
+          <option value="103">103</option>
+          <option value="104">104</option>
+          <option value="105">105</option>
+          <option value="106">106</option>
+          <option value="107">107</option>
+          <option value="108">108</option>
+          <option value="109">109</option>
+          <option value="110">110</option>
+          <option value="111">111</option>
+          <option value="112">112</option>
+          <option value="113">113</option>
+          <option value="114">114</option>
+          <option value="115">115</option>
+          <option value="116">116</option>
+          <option value="117">117</option>
+          <option value="118">118</option>
+          <option value="119">119</option>
+          <option value="120">120</option>
+          <option value="121">121</option>
+          <option value="122">122</option>
+          <option value="123">123</option>
+          <option value="124">124</option>
+          <option value="125">125</option>
+          <option value="126">126</option>
+          <option value="127">127</option>
+          <option value="128">128</option>
+          <option value="129">129</option>
+          <option value="130">130</option>
+          <option value="131">131</option>
+          <option value="132">132</option>
+          <option value="133">133</option>
+          <option value="134">134</option>
+          <option value="135">135</option>
+          <option value="136">136</option>
+          <option value="137">137</option>
+          <option value="138">138</option>
+          <option value="139">139</option>
+          <option value="140">140</option>
+          <option value="141">141</option>
+          <option value="142">142</option>
+          <option value="143">143</option>
+          <option value="144">144</option>
+          <option value="145">145</option>
+          <option value="146">146</option>
+          <option value="147">147</option>
+          <option value="148">148</option>
+          <option value="149">149</option>
+          <option value="150">150</option>
+          <option value="151">151</option>
+          <option value="152">152</option>
+          <option value="153">153</option>
+          <option value="154">154</option>
+          <option value="155">155</option>
+          <option value="156">156</option>
+          <option value="157">157</option>
+        </select>
+        <label class="control-label" for="xRiskCategory">Choose x risks Category:</label>
+        <select id="xRiskCategory">
+          <option value="Business Risks" selected="selected">Business Risks</option>
+          <option value="Economic Risks">Economic Risks</option>
+          <option value="Environmental Risks">Environmental Risks</option>
+          <option value="Political Risks">Political Risks</option>
+          <option value="Social Risks">Social Risks</option>
+          <option value="Technical Risks">Technical Risks</option>
+        </select>
+        <div id="xRisks" class="shiny-html-output"></div>
+        <label class="control-label" for="yRiskCategory">Choose y risks Category:</label>
+        <select id="yRiskCategory">
+          <option value="Business Risks" selected="selected">Business Risks</option>
+          <option value="Economic Risks">Economic Risks</option>
+          <option value="Environmental Risks">Environmental Risks</option>
+          <option value="Political Risks">Political Risks</option>
+          <option value="Social Risks">Social Risks</option>
+          <option value="Technical Risks">Technical Risks</option>
+        </select>
+        <div id="yRisks" class="shiny-html-output"></div>
+        <div>
+          <label class="control-label" for="period">Choose Time:</label>
+          <input id="period" type="slider" name="period" value="1" class="jslider" data-from="1" data-to="6" data-step="1" data-skin="plastic" data-round="false" data-locale="us" data-format="#,##0.#####" data-scale="|;|;|;|;|;|" data-smooth="false"/>
+        </div>
+        <div id="drag" class="drag"></div>
+      </form>
+    </div>
+    <div class="span8">
+      <div class="tabbable">
+        <ul class="nav nav-tabs">
+          <li class="active">
+            <a href="#tab-3000-1" data-toggle="tab">MDM Plot</a>
+          </li>
+          <li>
+            <a href="#tab-3000-2" data-toggle="tab">x Risk Walls</a>
+          </li>
+          <li>
+            <a href="#tab-3000-3" data-toggle="tab">y Risk Walls</a>
+          </li>
+          <li>
+            <a href="#tab-3000-4" data-toggle="tab">Values Table</a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active" id="tab-3000-1">
+            <div id="mdmPlot" class="shiny-html-output Highcharts">
+            </div>
+          </div>
+          <div class="tab-pane" id="tab-3000-2">
+            <div id="xRiskWall" class="shiny-html-output Highcharts">
+            </div>
+          </div>
+          <div class="tab-pane" id="tab-3000-3">
+            <div id="yRiskWall" class="shiny-html-output Highcharts">
+            </div>
+          </div>
+          <div class="tab-pane" id="tab-3000-4">
+            <div id="table" class="shiny-html-output"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

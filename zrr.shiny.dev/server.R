@@ -188,7 +188,7 @@ riskWallPlot <- function(..., radius = 3, title = NULL, subtitle = NULL, group.n
         cursor = "ns-resize",
         point = list(
           events = list(
-            drop = "#! function() { LibZRR.whatif(this); } !#" )
+            drop = "#! function() { LibZRR.whatif(this); } !#" )        
         ),
         stickyTracking = TRUE        
       )       
@@ -231,9 +231,9 @@ riskWallPlot <- function(..., radius = 3, title = NULL, subtitle = NULL, group.n
   
   
   ## load event -> trigger copy of data onto javascript data structures
-  rChart$chart(events = list(
-      load = "#! function() { LibZRR.copyWallData(this); } !#" )
-  )
+ rChart$chart(events = list(
+     load = "#! function() { LibZRR.copyWallData(this); } !#" )
+ )
   
   return(rChart$copy())
 }

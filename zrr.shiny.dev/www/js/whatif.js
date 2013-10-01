@@ -10,7 +10,8 @@
 
 LibZRR = window.LibZRR || {};
 
-LibZRR = function() {
+/* follow the module pattern */
+var LibZRR = (function() {
   
   /*
    * private variables and function implementations
@@ -21,26 +22,27 @@ LibZRR = function() {
   var yRisks;  
   
   // perform a what-if calculation
-  _whatif = function(chart) {
-    jQuery.each(chart.series.data, function() {
+  _whatif = function(point) {
+    jQuery.each(point.series.data, function() {
       this.y = this.y + (0.5-Math.random())/10;
-      chart.series.redraw();
-    });
+    });    
+    point.series.redraw();
+    
+    // update the other wall
     
     // change the background color of the MDM plot for a test
-    jQuery("#mdmPlot").highcharts({
+/*    jQuery("#mdmPlot").highcharts({
         chart: { 
           backgroundColor: '#FCCCC5'          
         }
-    })
-  };
+    }) */
+  }
   
   // copy this risk wall data onto corresponding javascript datastructure
   _copyWallData = function(chart) {
-    alert('blabla');
+    console.log('copying wall data....')
     xRisks = chart.series;
-  };  
-  
+  }  
   
   /*
    * Public library "methods" - these will survive the closure 
@@ -49,8 +51,8 @@ LibZRR = function() {
    *
    */
   return {
-      "whatif": _whatif, 
-      "copyWallData": _copyWallData;
-  }
+      whatif: _whatif,      
+      copyWallData: _copyWallData
+  };
   
-}();
+}());
