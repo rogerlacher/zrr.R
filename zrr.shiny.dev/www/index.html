@@ -11,11 +11,50 @@
   <script src="shared/bootstrap/js/bootstrap.min.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" type="text/css" href="shared/bootstrap/css/bootstrap-responsive.min.css"/>
-  <title>Zurich Risk Room Prototype</title>
+  <title>Zurich Risk Room Prototype - custom</title>
   <script src="Highcharts/js/highcharts.js" type="text/javascript"></script>
   <script src="Highcharts/js/highcharts-more.js" type="text/javascript"></script>
   <script src="js/draggable-points.js"></script>
   <script src="js/whatif.js"></script>
+  <style type="text/css">
+    .wrap {
+      -webkit-perspective: 800px;
+      -webkit-perspective-origin: 60% 100px;
+      height: 800px;
+      perspective: 800px;
+    	perspective-origin: 50% 100px;
+    }
+    .cube {
+      position: relative;
+    	width: 200px;
+      -webkit-transform-style: preserve-3d;
+    	transform-style: preserve-3d;
+    }
+    .cube div {
+      position: absolute;
+    	width: 800px;
+    	height: 800px;
+    }
+    .left {
+      background-color: yellow;
+      -webkit-transform: translateZ(-700px) rotateY(180deg);
+      transform: translateZ(-700px) rotateY(180deg);
+    }
+    .right {
+      background-color: green;
+      -webkit-transform: rotateY(270deg) translateX(-700px);
+    	-webkit-transform-origin: center left;
+    	transform: rotateY(270deg) translateX(-700px);
+    	transform-origin: center left;
+    }
+    .bottom {
+      background-color: blue;
+      -webkit-transform: rotateX(90deg) translateY(100px);
+      -webkit-transform-origin: bottom center;
+      transform: rotateX(90deg) translateY(100px);
+    	transform-origin: bottom center;
+    }
+  </style>
 </head>
 <body>
 <div class="container-fluid">
@@ -29,177 +68,160 @@
       <form class="well">
         <label class="control-label" for="countries">Choose your Countries:</label>
         <select id="countries" multiple="multiple">
+          <option value="Afghanistan">Afghanistan</option>
           <option value="Albania">Albania</option>
+          <option value="Algeria">Algeria</option>
           <option value="Angola">Angola</option>
           <option value="Argentina">Argentina</option>
+          <option value="Armenia">Armenia</option>
           <option value="Australia">Australia</option>
           <option value="Austria">Austria</option>
           <option value="Azerbaijan">Azerbaijan</option>
-          <option value="Bahrain">Bahrain</option>
           <option value="Bangladesh">Bangladesh</option>
+          <option value="Barbados">Barbados</option>
+          <option value="Burundi">Burundi</option>
           <option value="Belgium">Belgium</option>
-          <option value="Belize">Belize</option>
+          <option value="Benin">Benin</option>
           <option value="Bhutan">Bhutan</option>
+          <option value="Bosnia Herzeg.">Bosnia Herzeg.</option>
+          <option value="Belize">Belize</option>
+          <option value="Belarus">Belarus</option>
           <option value="Bolivia">Bolivia</option>
-          <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
           <option value="Botswana">Botswana</option>
           <option value="Brazil">Brazil</option>
+          <option value="Bahrain">Bahrain</option>
           <option value="Bulgaria">Bulgaria</option>
+          <option value="Burkina Faso">Burkina Faso</option>
           <option value="Cambodia">Cambodia</option>
           <option value="Canada">Canada</option>
+          <option value="Congo Rep.">Congo Rep.</option>
+          <option value="Chad">Chad</option>
           <option value="Chile">Chile</option>
           <option value="China">China</option>
+          <option value="Côte d&#39;Ivoire">Côte d'Ivoire</option>
+          <option value="Cameroon">Cameroon</option>
+          <option value="Democratic Republic of Congo">Democratic Republic of Congo</option>
           <option value="Colombia">Colombia</option>
-          <option value="Cote d&#39;Ivoire">Cote d'Ivoire</option>
+          <option value="Costa Rica">Costa Rica</option>
           <option value="Croatia">Croatia</option>
+          <option value="Cuba">Cuba</option>
           <option value="Cyprus">Cyprus</option>
-          <option value="Czech Republic">Czech Republic</option>
+          <option value="Czech Rep.">Czech Rep.</option>
           <option value="Denmark">Denmark</option>
+          <option value="Dominican Rep.">Dominican Rep.</option>
           <option value="Ecuador">Ecuador</option>
           <option value="Egypt">Egypt</option>
+          <option value="Eritrea">Eritrea</option>
+          <option value="El Salvador">El Salvador</option>
+          <option value="Spain">Spain</option>
           <option value="Estonia">Estonia</option>
+          <option value="Ethiopia">Ethiopia</option>
           <option value="Finland">Finland</option>
           <option value="France">France</option>
+          <option value="Gambia">Gambia</option>
+          <option value="United Kingdom">United Kingdom</option>
           <option value="Georgia">Georgia</option>
           <option value="Germany">Germany</option>
           <option value="Ghana">Ghana</option>
           <option value="Greece">Greece</option>
+          <option value="Guatemala">Guatemala</option>
+          <option value="Guyana">Guyana</option>
+          <option value="Haiti">Haiti</option>
+          <option value="Hong Kong SAR">Hong Kong SAR</option>
           <option value="Honduras">Honduras</option>
-          <option value="Hong Kong">Hong Kong</option>
           <option value="Hungary">Hungary</option>
-          <option value="Iceland">Iceland</option>
-          <option value="India">India</option>
           <option value="Indonesia">Indonesia</option>
-          <option value="Iraq">Iraq</option>
+          <option value="India">India</option>
+          <option value="Iran">Iran</option>
           <option value="Ireland">Ireland</option>
+          <option value="Iraq">Iraq</option>
+          <option value="Iceland">Iceland</option>
           <option value="Israel">Israel</option>
           <option value="Italy">Italy</option>
           <option value="Jamaica">Jamaica</option>
-          <option value="Japan">Japan</option>
           <option value="Jordan">Jordan</option>
+          <option value="Japan">Japan</option>
           <option value="Kazakhstan">Kazakhstan</option>
           <option value="Kenya">Kenya</option>
-          <option value="Korea, Republic of">Korea, Republic of</option>
-          <option value="Kosovo">Kosovo</option>
+          <option value="Kyrgyz Rep.">Kyrgyz Rep.</option>
+          <option value="Korea South">Korea South</option>
+          <option value="Saudi Arabia">Saudi Arabia</option>
           <option value="Kuwait">Kuwait</option>
-          <option value="Kyrgyz Republic">Kyrgyz Republic</option>
+          <option value="Laos">Laos</option>
           <option value="Latvia">Latvia</option>
-          <option value="Lebanon">Lebanon</option>
           <option value="Libya">Libya</option>
+          <option value="Liberia">Liberia</option>
+          <option value="Lesotho">Lesotho</option>
+          <option value="Lebanon">Lebanon</option>
           <option value="Lithuania">Lithuania</option>
           <option value="Luxembourg">Luxembourg</option>
-          <option value="Macedonia">Macedonia</option>
-          <option value="Malaysia">Malaysia</option>
-          <option value="Malta">Malta</option>
-          <option value="Mauritius">Mauritius</option>
-          <option value="Mexico">Mexico</option>
-          <option value="Moldova">Moldova</option>
-          <option value="Montenegro">Montenegro</option>
+          <option value="Madagascar">Madagascar</option>
           <option value="Morocco">Morocco</option>
+          <option value="Malaysia">Malaysia</option>
+          <option value="Malawi">Malawi</option>
+          <option value="Moldova">Moldova</option>
+          <option value="Mexico">Mexico</option>
+          <option value="Mongolia">Mongolia</option>
+          <option value="Macedonia FYR">Macedonia FYR</option>
+          <option value="Mali">Mali</option>
+          <option value="Malta">Malta</option>
           <option value="Mozambique">Mozambique</option>
+          <option value="Mauritius">Mauritius</option>
+          <option value="Mauritania">Mauritania</option>
+          <option value="Myanmar">Myanmar</option>
+          <option value="Namibia">Namibia</option>
+          <option value="Nicaragua">Nicaragua</option>
           <option value="Netherlands">Netherlands</option>
-          <option value="New Zealand">New Zealand</option>
+          <option value="Nepal">Nepal</option>
           <option value="Nigeria">Nigeria</option>
+          <option value="Niger">Niger</option>
           <option value="Norway">Norway</option>
+          <option value="New Zealand">New Zealand</option>
           <option value="Oman">Oman</option>
           <option value="Pakistan">Pakistan</option>
           <option value="Panama">Panama</option>
+          <option value="Paraguay">Paraguay</option>
           <option value="Peru">Peru</option>
           <option value="Philippines">Philippines</option>
+          <option value="Papua NG">Papua NG</option>
           <option value="Poland">Poland</option>
           <option value="Portugal">Portugal</option>
+          <option value="Korea North">Korea North</option>
+          <option value="Puerto Rico">Puerto Rico</option>
           <option value="Qatar">Qatar</option>
           <option value="Romania">Romania</option>
-          <option value="Russia">Russia</option>
-          <option value="Saudi Arabia">Saudi Arabia</option>
-          <option value="Serbia">Serbia</option>
-          <option value="Singapore">Singapore</option>
-          <option value="Slovakia">Slovakia</option>
-          <option value="Slovenia">Slovenia</option>
           <option value="South Africa">South Africa</option>
-          <option value="Spain">Spain</option>
+          <option value="Russia">Russia</option>
+          <option value="Rwanda">Rwanda</option>
+          <option value="Senegal">Senegal</option>
+          <option value="Singapore">Singapore</option>
+          <option value="Sierra Leone">Sierra Leone</option>
+          <option value="Slovenia">Slovenia</option>
+          <option value="Somalia">Somalia</option>
+          <option value="Serbia">Serbia</option>
           <option value="Sri Lanka">Sri Lanka</option>
-          <option value="Sweden">Sweden</option>
+          <option value="Sudan">Sudan</option>
           <option value="Switzerland">Switzerland</option>
+          <option value="Suriname">Suriname</option>
+          <option value="Slovak Rep.">Slovak Rep.</option>
+          <option value="Sweden">Sweden</option>
           <option value="Syria">Syria</option>
-          <option value="Taiwan ">Taiwan </option>
-          <option value="Tajikistan">Tajikistan</option>
           <option value="Tanzania">Tanzania</option>
           <option value="Thailand">Thailand</option>
-          <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+          <option value="Tajikistan">Tajikistan</option>
+          <option value="Turkmenistan">Turkmenistan</option>
+          <option value="Taiwan">Taiwan</option>
+          <option value="Trinidad Tobago">Trinidad Tobago</option>
           <option value="Tunisia">Tunisia</option>
           <option value="Turkey">Turkey</option>
-          <option value="Turkmenistan">Turkmenistan</option>
+          <option value="U.A.E.">U.A.E.</option>
           <option value="Uganda">Uganda</option>
           <option value="Ukraine">Ukraine</option>
-          <option value="United Kingdom">United Kingdom</option>
-          <option value="United States">United States</option>
           <option value="Uruguay">Uruguay</option>
+          <option value="United States">United States</option>
+          <option value="Uzbekistan">Uzbekistan</option>
           <option value="Venezuela">Venezuela</option>
           <option value="Vietnam">Vietnam</option>
-          <option value="United Arab Emirates">United Arab Emirates</option>
-          <option value="Afghanistan">Afghanistan</option>
-          <option value="Algeria">Algeria</option>
-          <option value="Armenia">Armenia</option>
-          <option value="Bahamas, the">Bahamas, the</option>
-          <option value="Barbados">Barbados</option>
-          <option value="Belarus">Belarus</option>
-          <option value="Benin">Benin</option>
-          <option value="Bermuda">Bermuda</option>
-          <option value="Brunei Darussalam">Brunei Darussalam</option>
-          <option value="Burkina Faso">Burkina Faso</option>
-          <option value="Burundi">Burundi</option>
-          <option value="Cameroon">Cameroon</option>
-          <option value="Central African Republic">Central African Republic</option>
-          <option value="Chad">Chad</option>
-          <option value="Congo, Dem. Rep.">Congo, Dem. Rep.</option>
-          <option value="Congo">Congo</option>
-          <option value="Costa Rica">Costa Rica</option>
-          <option value="Cuba">Cuba</option>
-          <option value="Djibouti">Djibouti</option>
-          <option value="Dominican Republic">Dominican Republic</option>
-          <option value="El Salvador">El Salvador</option>
-          <option value="Equatorial Guinea">Equatorial Guinea</option>
-          <option value="Eritrea">Eritrea</option>
-          <option value="Ethiopia">Ethiopia</option>
-          <option value="Gabon">Gabon</option>
-          <option value="Gambia, The">Gambia, The</option>
-          <option value="Guatemala">Guatemala</option>
-          <option value="Guinea">Guinea</option>
-          <option value="Guinea-Bissau">Guinea-Bissau</option>
-          <option value="Guyana">Guyana</option>
-          <option value="Haiti">Haiti</option>
-          <option value="Iran">Iran</option>
-          <option value="Korea, Dem. Rep.">Korea, Dem. Rep.</option>
-          <option value="Lao PDR">Lao PDR</option>
-          <option value="Lesotho">Lesotho</option>
-          <option value="Liberia">Liberia</option>
-          <option value="Macau">Macau</option>
-          <option value="Madagascar">Madagascar</option>
-          <option value="Malawi">Malawi</option>
-          <option value="Mali">Mali</option>
-          <option value="Mauritania">Mauritania</option>
-          <option value="Monaco">Monaco</option>
-          <option value="Mongolia">Mongolia</option>
-          <option value="Myanmar">Myanmar</option>
-          <option value="Namibia">Namibia</option>
-          <option value="Nepal">Nepal</option>
-          <option value="Nicaragua">Nicaragua</option>
-          <option value="Niger">Niger</option>
-          <option value="Papua New Guinea">Papua New Guinea</option>
-          <option value="Paraguay">Paraguay</option>
-          <option value="Puerto Rico">Puerto Rico</option>
-          <option value="Rwanda">Rwanda</option>
-          <option value="Sao Tome and Principe">Sao Tome and Principe</option>
-          <option value="Senegal">Senegal</option>
-          <option value="Sierra Leone">Sierra Leone</option>
-          <option value="Somalia">Somalia</option>
-          <option value="Sudan">Sudan</option>
-          <option value="Suriname">Suriname</option>
-          <option value="Swaziland">Swaziland</option>
-          <option value="Timor-Leste">Timor-Leste</option>
-          <option value="Uzbekistan">Uzbekistan</option>
-          <option value="West Bank and Gaza">West Bank and Gaza</option>
           <option value="Yemen">Yemen</option>
           <option value="Zambia">Zambia</option>
           <option value="Zimbabwe">Zimbabwe</option>
@@ -226,60 +248,42 @@
         <div id="yRisks" class="shiny-html-output"></div>
         <div>
           <label class="control-label" for="period">Choose Time:</label>
-          <input id="period" type="slider" name="period" value="1" class="jslider" data-from="1" data-to="78" data-step="1" data-skin="plastic" data-round="false" data-locale="us" data-format="#,##0.#####" data-smooth="false"/>
+          <input id="period" type="slider" name="period" value="1" class="jslider" data-from="1" data-to="6" data-step="1" data-skin="plastic" data-round="false" data-locale="us" data-format="#,##0.#####" data-scale="|;|;|;|;|;|" data-smooth="false"/>
         </div>
         <div id="drag" class="drag"></div>
       </form>
     </div>
-    <div style="-webkit-perspective: 400px;"  class="span8">
-      <!--<div class="tabbable">
+    <div class="span8">
+      <div class="tabbable">
         <ul class="nav nav-tabs">
           <li class="active">
-            <a href="#tab-3480-1" data-toggle="tab">MDM Plot</a>
+            <a href="#tab-7001-1" data-toggle="tab">Table</a>
           </li>
           <li>
-            <a href="#tab-3480-2" data-toggle="tab">x Risk Walls</a>
-          </li>
-          <li>
-            <a href="#tab-3480-3" data-toggle="tab">y Risk Walls</a>
-          </li>
-          <li>
-            <a href="#tab-3480-4" data-toggle="tab">Values Table</a>
+            <a href="#tab-7001-2" data-toggle="tab">ThreeD</a>
           </li>
         </ul>
         <div class="tab-content">
-          <div class="tab-pane active" title="MDM Plot" id="tab-3480-1">
-            <div id="mdmPlot" class="shiny-html-output Highcharts">
-            </div>
-          </div>
-          <div class="tab-pane" title="x Risk Walls" id="tab-3480-2">
-            <div id="xRiskWall" class="shiny-html-output Highcharts">
-            </div>
-          </div>
-          <div class="tab-pane" title="y Risk Walls" id="tab-3480-3">
-            <div id="yRiskWall" class="shiny-html-output Highcharts">
-            </div>
-          </div>
-          <div class="tab-pane" title="Values Table" id="tab-3480-4">
+          <div class="tab-pane active" id="tab-7001-1">
             <div id="table" class="shiny-html-output"></div>
           </div>
+          <div class="tab-pane" id="tab-7001-2">
+            <div class="wrap">
+              <div class="cube">
+                <div class="bottom">
+                  <div id="mdmPlot" class="shiny-html-output"></div>
+                </div>
+                <div class="left">
+                  <div id="xRiskWall" class="shiny-html-output"></div>
+                </div>
+                <div class="right">
+                  <div id="yRiskWall" class="shiny-html-output"></div>
+                </div>
+              </div>
+            </div>  
+          </div>          
         </div>
-      </div> -->
-          <div style= "-webkit-transform: rotateX(45deg); -webkit-transform-origin: 50% 80%;"  id="tab-3480-1">
-            <div id="mdmPlot" class="shiny-html-output Highcharts">
-            </div>
-          </div>
-          <div id="tab-3480-2">
-            <div id="xRiskWall" class="shiny-html-output Highcharts">
-            </div>
-          </div>
-          <div id="tab-3480-3">
-            <div id="yRiskWall" class="shiny-html-output Highcharts">
-            </div>
-          </div>
-          <div id="tab-3480-4">
-            <div id="table" class="shiny-html-output"></div>
-          </div>
+      </div>
     </div>
   </div>
 </div>
