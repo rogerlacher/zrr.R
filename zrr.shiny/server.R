@@ -82,7 +82,7 @@ shinyServer(function(input, output) {
   output$yRisks<- renderUI({
     riskSelection <- unlist(rh[[input$yRiskCategory]],use.names=FALSE)
     selectInput("yRisks", "Choose y Risk:", 
-                choices = riskSelection, multiple=TRUE)      
+                choices = riskSelection, multiple=TRUE)
   })
   
   if(FALSE) {

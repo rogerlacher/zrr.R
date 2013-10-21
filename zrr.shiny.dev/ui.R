@@ -21,14 +21,15 @@ shinyUI(pageWithSidebar(
   # Sidebar with a slider input for number of observations
   sidebarPanel(
     selectInput("countries", "Choose your Countries:", 
-                choices = countries[,"GEO_NAME"], multiple=TRUE),
+                choices = countries[,"GEO_NAME"], multiple=TRUE,
+                select = sample(countries[,"GEO_NAME"],5)),
     
     selectInput("xRiskCategory", "Choose x risks Category:", 
                 choices = riskcats),
     uiOutput("xRisks"),
     
     selectInput("yRiskCategory", "Choose y risks Category:", 
-                choices = riskcats),
+                choices = riskcats, selected = riskcats[3]),
     uiOutput("yRisks"),
     
     sliderInput("period", "Choose Time:", 

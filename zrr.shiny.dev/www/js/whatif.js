@@ -21,14 +21,28 @@ var LibZRR = (function() {
   var xRisks;
   var yRisks;  
   
+  var oppositeWallId {
+    xRiskWall: 'yRiskWall',
+    yRiskWall: 'xRiskWall'
+  };
+  
   // perform a what-if calculation
   _whatif = function(point) {
+    // point.series.data returns an array of points
     jQuery.each(point.series.data, function() {
-      this.y = this.y + (0.5-Math.random())/10;
+      // point has a method "update"
+      if(this.id != point.id) {
+        this.update(this.y + (0.5-Math.random())/10);
+      }
     });    
-    point.series.redraw();
-    
-    // update the other wall
+    /*
+    // todo: update floor & other wall
+    jQuery().highcharts({
+      chart: {
+        backgroundColor: '#FCCCC5'
+      }
+    });
+    */
     
     // change the background color of the MDM plot for a test
 /*    jQuery("#mdmPlot").highcharts({
@@ -42,6 +56,7 @@ var LibZRR = (function() {
   _copyWallData = function(chart) {
     console.log('copying wall data....')
     xRisks = chart.series;
+    console.log(xRisks)
   }  
   
   /*
