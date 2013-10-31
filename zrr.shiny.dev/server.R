@@ -4,108 +4,68 @@ library(shiny)
 library(plyr)
 
 
-
-# Define server logic required to generate and plot a random distribution
 shinyServer(function(input, output) {
   
-  # query the risk values using filters countries, risks, period
-  getRiskValues <- reactive({
-    if(length(input$period) && length(input$countries) 
-          && length(input$xRisks) && length(input$yRisks)) {
-      period <- periods[input$period,][,"PERIOD_ID"]    
-      xrIds <- subset(risknames, INDICATOR_NAME %in% input$xRisks, select=INDICATOR_ID)
-      xrIds <- paste(xrIds[,1],collapse=",")    
-      query <- paste("SELECT FK_INDICATOR, FK_GEO_UNIT, INDICATOR_VALUE, 'x' as WALL ",
-                     "FROM RR_INDICATOR_VALUE"," ",
-                     "WHERE FK_TIME_PERIOD = ",period," ",
-                     "AND FK_INDICATOR IN (", as.character(xrIds),")",sep="")
-      xRisks  <- sqlQuery(con,query)
-      xBpdata <- getFiveNums(xRisks)
-      xRisks <- merge(xRisks,countries,by.x="FK_GEO_UNIT",by.y="GEO_UNIT_ID")[,c("FK_GEO_UNIT","GEO_NAME","FK_INDICATOR","INDICATOR_VALUE","WALL")]
-      xRisks <- merge(xRisks,risknames,by.x="FK_INDICATOR",by.y="INDICATOR_ID")[,c("FK_GEO_UNIT","FK_INDICATOR","GEO_NAME","INDICATOR_NAME","INDICATOR_VALUE","WALL")]    
-      xRisks <- subset(xRisks, GEO_NAME %in% input$countries)
-      
-      yrIds <- subset(risknames, INDICATOR_NAME %in% input$yRisks, select=INDICATOR_ID)
-      yrIds <- paste(yrIds[,1],collapse=",")
-      query <- paste("SELECT FK_INDICATOR, FK_GEO_UNIT, INDICATOR_VALUE, 'y' as WALL ",
-                     "FROM RR_INDICATOR_VALUE"," ",
-                     "WHERE FK_TIME_PERIOD = ",period," ",
-                     "AND FK_INDICATOR IN (", as.character(yrIds),")",sep="")
-      yRisks  <- sqlQuery(con,query)
-      yBpdata <- getFiveNums(yRisks)
-      yRisks <- merge(yRisks,countries,by.x="FK_GEO_UNIT",by.y="GEO_UNIT_ID")[,c("FK_GEO_UNIT","GEO_NAME","FK_INDICATOR","INDICATOR_VALUE","WALL")]
-      yRisks <- merge(yRisks,risknames,by.x="FK_INDICATOR",by.y="INDICATOR_ID")[,c("FK_GEO_UNIT","FK_INDICATOR","GEO_NAME","INDICATOR_NAME","INDICATOR_VALUE","WALL")]    
-      yRisks <- subset(yRisks, GEO_NAME %in% input$countries)
-        
-      # calculate mdm
-      u <- aggregate(xRisks[,"INDICATOR_VALUE"],by=list(xRisks[,"GEO_NAME"]),FUN=rMdm)[,2]
-      v <- aggregate(yRisks[,"INDICATOR_VALUE"],by=list(yRisks[,"GEO_NAME"]),FUN=rMdm)[,2]
-      mdm <- cbind(input$countries,u,v,0.1)
-      mdm <- as.data.frame(mdm)
-      
-      results <- list(mdm = mdm, xRisks = xRisks, yRisks = yRisks, xbpd = xBpdata, ybpd = yBpdata)
-      return(results)
-    } else 
-      return(NULL)
-  })
   
+  # Risk Room Charts (MDM, x and y walls, table display)
+  # ========================================================= #
   
+  # The MDM scatter plot
   output$mdmPlot <- renderChart({
-      r <- getRiskValues();
+    r <- riskValues();      
+    if (length(r)) {        
       
-      if (length(r)) {        
-        
-        p1 <- Highcharts$new()        
-        p1$chart(type='bubble',zoomType='xy')
-        p1$xAxis(min=0,max=1)        
-        p1$yAxis(min=0,max=1)
-        apply(r$mdm,1,function(x) {
-          p1$series(
-            name = as.character(x[1]),
-            data = list(as.numeric(x[2:4]))
-          )
-        })
-        p1$addParams(dom = 'mdmPlot');
-        return(p1)         
-      }
-      
+      p1 <- Highcharts$new()        
+      p1$chart(type='bubble',zoomType='xy')
+      p1$xAxis(min=0,max=1)        
+      p1$yAxis(min=0,max=1)
+      apply(r$mdm,1,function(x) {
+        p1$series(
+          name = as.character(x[1]),
+          data = list(as.numeric(x[2:4]))
+        )
+      })
+      p1$addParams(dom = 'mdmPlot');
+      return(p1)         
+    }      
   })
   
-  
-  
+  # The x Risk Wall
   output$xRiskWall <- renderChart({    
-    r <- getRiskValues();    
-    
+    r <- riskValues();        
     p1 <- riskWallPlot(x="INDICATOR_NAME",y="INDICATOR_VALUE",
-                data=r$xRisks, bpd = r$xbpd, type="line",group="GEO_NAME", title="x Risks");
-        
+                        data=r$xRisks, bpd = r$xbpd, type="line",
+                        group="GEO_NAME", title="x Risks");        
     p1$addParams(dom = 'xRiskWall');
     return(p1);
         
   })
   
-  
+  # The y Risk Wall
   output$yRiskWall <- renderChart({    
-    r <- getRiskValues();
+    r <- riskValues();
     p1 <- riskWallPlot(x="INDICATOR_NAME",y="INDICATOR_VALUE",
-                data=r$yRisks, bpd = r$ybpd, type="line",group="GEO_NAME", title="y Risks");    
-
+                        data=r$yRisks, bpd = r$ybpd, type="line",
+                        group="GEO_NAME", title="y Risks");
     p1$addParams(dom = 'yRiskWall');
     return(p1);
 
     })
   
-  
+  # The table output
   output$table <- renderTable({
-    r <- getRiskValues();
+    r <- riskValues();
     if (length(r)) {
       r$mdm;
     }        
   })     
   
   
-  # conditionally create output widgets for xRisks and yRisks
+  # Conditionally create output widgets for xRisks and yRisks
   # based on the xRiskCategory and yRiskCategory selections
+  # ========================================================= #
+  
+  # x-Risks selection menu
   output$xRisks <- renderUI({
     riskSelection <- unlist(subset(risknames,
                                    INDICATOR_CATEGORY==input$xRiskCategory,
@@ -114,6 +74,7 @@ shinyServer(function(input, output) {
                 choices = riskSelection, multiple=TRUE)      
   })
   
+  # y-Risks selection menu
   output$yRisks<- renderUI({
     riskSelection <- unlist(subset(risknames,
                                    INDICATOR_CATEGORY==input$yRiskCategory,
@@ -121,12 +82,104 @@ shinyServer(function(input, output) {
     selectInput("yRisks", "Choose y Risk:", 
                 choices = riskSelection, multiple=TRUE)      
   })
+
+
+  # Reactive input: get countries, risks, period selection
+  # Perform calculations and return results
+  # ========================================================= #
+  
+  # query the risk values using filters countries, risks, period
+  riskValues <- reactive({            
+    if(length(input$countries) && length(input$xRisks) && length(input$yRisks)) {    
+      calculateMDM(input$countries,input$xRisks,input$yRisks,input$period)      
+#       period <- periods[input$period,][,"PERIOD_ID"]    
+#       xrIds <- subset(risknames, INDICATOR_NAME %in% input$xRisks, select=INDICATOR_ID)
+#       xrIds <- paste(xrIds[,1],collapse=",")    
+#       query <- paste("SELECT FK_INDICATOR, FK_GEO_UNIT, INDICATOR_VALUE, 'x' as WALL ",
+#                      "FROM RR_INDICATOR_VALUE"," ",
+#                      "WHERE FK_TIME_PERIOD = ",period," ",
+#                      "AND FK_INDICATOR IN (", as.character(xrIds),")",sep="")
+#       xRisks  <- sqlQuery(con,query)
+#       xBpdata <- getFiveNums(xRisks)
+#       xRisks <- merge(xRisks,countries,by.x="FK_GEO_UNIT",by.y="GEO_UNIT_ID")[,c("FK_GEO_UNIT","GEO_NAME","FK_INDICATOR","INDICATOR_VALUE","WALL")]
+#       xRisks <- merge(xRisks,risknames,by.x="FK_INDICATOR",by.y="INDICATOR_ID")[,c("FK_GEO_UNIT","FK_INDICATOR","GEO_NAME","INDICATOR_NAME","INDICATOR_VALUE","WALL")]    
+#       xRisks <- subset(xRisks, GEO_NAME %in% input$countries)
+#       
+#       yrIds <- subset(risknames, INDICATOR_NAME %in% sxRisks, select=INDICATOR_ID)
+#       yrIds <- paste(yrIds[,1],collapse=",")
+#       query <- paste("SELECT FK_INDICATOR, FK_GEO_UNIT, INDICATOR_VALUE, 'y' as WALL ",
+#                      "FROM RR_INDICATOR_VALUE"," ",
+#                      "WHERE FK_TIME_PERIOD = ",period," ",
+#                      "AND FK_INDICATOR IN (", as.character(yrIds),")",sep="")
+#       yRisks  <- sqlQuery(con,query)
+#       yBpdata <- getFiveNums(yRisks)
+#       yRisks <- merge(yRisks,countries,by.x="FK_GEO_UNIT",by.y="GEO_UNIT_ID")[,c("FK_GEO_UNIT","GEO_NAME","FK_INDICATOR","INDICATOR_VALUE","WALL")]
+#       yRisks <- merge(yRisks,risknames,by.x="FK_INDICATOR",by.y="INDICATOR_ID")[,c("FK_GEO_UNIT","FK_INDICATOR","GEO_NAME","INDICATOR_NAME","INDICATOR_VALUE","WALL")]    
+#       yRisks <- subset(yRisks, GEO_NAME %in% input$countries)
+#       
+#       # calculate mdm
+#       u <- aggregate(xRisks[,"INDICATOR_VALUE"],by=list(xRisks[,"GEO_NAME"]),FUN=rMdm)[,2]
+#       v <- aggregate(yRisks[,"INDICATOR_VALUE"],by=list(yRisks[,"GEO_NAME"]),FUN=rMdm)[,2]
+#       mdm <- cbind(input$countries,u,v,0.1)
+#       mdm <- as.data.frame(mdm)
+#       
+#       results <- list(mdm = mdm, xRisks = xRisks, yRisks = yRisks, xbpd = xBpdata, ybpd = yBpdata)
+#       return(results)      
+    }
+  })
 })
 
-# ========================= Functions -> store in different file =====================#
+
+
+
+
+
+
+
+# ===================================== Functions ===========================================#
+# Functions that can go outside server.R-> store these in different file to unclutter server.R
+
+
+calculateMDM <- function(sCountries,sxRisks,syRisks,sPeriod) {
+  period <- periods[sPeriod,][,"PERIOD_ID"]    
+  xrIds <- subset(risknames, INDICATOR_NAME %in% sxRisks, select=INDICATOR_ID)
+  xrIds <- paste(xrIds[,1],collapse=",")    
+  query <- paste("SELECT FK_INDICATOR, FK_GEO_UNIT, INDICATOR_VALUE, 'x' as WALL ",
+                 "FROM RR_INDICATOR_VALUE"," ",
+                 "WHERE FK_TIME_PERIOD = ",period," ",
+                 "AND FK_INDICATOR IN (", as.character(xrIds),")",sep="")
+  xRisks  <- sqlQuery(con,query)
+  xBpdata <- getFiveNums(xRisks)
+  xRisks <- merge(xRisks,countries,by.x="FK_GEO_UNIT",by.y="GEO_UNIT_ID")[,c("FK_GEO_UNIT","GEO_NAME","FK_INDICATOR","INDICATOR_VALUE","WALL")]
+  xRisks <- merge(xRisks,risknames,by.x="FK_INDICATOR",by.y="INDICATOR_ID")[,c("FK_GEO_UNIT","FK_INDICATOR","GEO_NAME","INDICATOR_NAME","INDICATOR_VALUE","WALL")]    
+  xRisks <- subset(xRisks, GEO_NAME %in% sCountries)
+  
+  yrIds <- subset(risknames, INDICATOR_NAME %in% syRisks, select=INDICATOR_ID)
+  yrIds <- paste(yrIds[,1],collapse=",")
+  query <- paste("SELECT FK_INDICATOR, FK_GEO_UNIT, INDICATOR_VALUE, 'y' as WALL ",
+                 "FROM RR_INDICATOR_VALUE"," ",
+                 "WHERE FK_TIME_PERIOD = ",period," ",
+                 "AND FK_INDICATOR IN (", as.character(yrIds),")",sep="")
+  yRisks  <- sqlQuery(con,query)
+  yBpdata <- getFiveNums(yRisks)
+  yRisks <- merge(yRisks,countries,by.x="FK_GEO_UNIT",by.y="GEO_UNIT_ID")[,c("FK_GEO_UNIT","GEO_NAME","FK_INDICATOR","INDICATOR_VALUE","WALL")]
+  yRisks <- merge(yRisks,risknames,by.x="FK_INDICATOR",by.y="INDICATOR_ID")[,c("FK_GEO_UNIT","FK_INDICATOR","GEO_NAME","INDICATOR_NAME","INDICATOR_VALUE","WALL")]    
+  yRisks <- subset(yRisks, GEO_NAME %in% sCountries)
+  
+  # calculate mdm
+  u <- aggregate(xRisks[,"INDICATOR_VALUE"],by=list(xRisks[,"GEO_NAME"]),FUN=rMdm)[,2]
+  v <- aggregate(yRisks[,"INDICATOR_VALUE"],by=list(yRisks[,"GEO_NAME"]),FUN=rMdm)[,2]
+  mdm <- cbind(sCountries,u,v,0.1)
+  mdm <- as.data.frame(mdm)
+  
+  results <- list(mdm = mdm, xRisks = xRisks, yRisks = yRisks, xbpd = xBpdata, ybpd = yBpdata)
+  return(results)
+}
+
+
 # Plot Risk Room Wall using HighCharts
 # Plot includes boxplots & draggableY event listener for "what-if"
-# What-if calculations implemented in javascript -> cf. file "whatif.js"
+# What-if calculations implemented in javascript -> cf. file "zrrlib.js"
 #
 riskWallPlot <- function(..., radius = 3, title = NULL, subtitle = NULL, group.na = NULL){
   rChart <- Highcharts$new()

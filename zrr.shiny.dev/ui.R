@@ -7,7 +7,7 @@ includeDraggableJS <- function() {
     #tags$script(src = "https://rawgithub.com/highslide-software/draggable-points/master/draggable-points.js"),
     tags$script(src = "js/draggable-points.js"),
     #tags$script(src = "js/drag.js"),
-    tags$script(src = "js/whatif.js")
+    tags$script(src = "js/zrrlib.js")
   ))
 }
 
