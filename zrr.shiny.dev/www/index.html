@@ -7,64 +7,21 @@
   <link rel="stylesheet" type="text/css" href="shared/shiny.css"/>
   <link rel="stylesheet" type="text/css" href="shared/slider/css/jquery.slider.min.css"/>
   <script src="shared/slider/js/jquery.slider.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="shared/bootstrap/css/bootstrap.min.css"/>
+  <link rel="stylesheet" type="text/css" href="shared/bootstrap/css/bootstrap.min.css"/>  
   <script src="shared/bootstrap/js/bootstrap.min.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" type="text/css" href="shared/bootstrap/css/bootstrap-responsive.min.css"/>
   <title>Zurich Risk Room Prototype - custom</title>
+  <link rel="stylesheet" type="text/css" href="css/zrr.css"/>
   <script src="Highcharts/js/highcharts.js" type="text/javascript"></script>
   <script src="Highcharts/js/highcharts-more.js" type="text/javascript"></script>
   <script src="js/draggable-points.js"></script>
   <script src="js/zrrlib.js"></script>
-  <style type="text/css">
-    .wrap {
-      -webkit-perspective: 800px;
-      -webkit-perspective-origin: 60% 100px;
-      height: 800px;
-      perspective: 800px;
-    	perspective-origin: 50% 100px;
-    }
-    .cube {
-      position: relative;
-    	width: 200px;
-      -webkit-transform-style: preserve-3d;
-    	transform-style: preserve-3d;
-    }
-    .cube div {
-      position: absolute;
-    	width: 800px;
-    	height: 800px;
-    }
-    .left {
-      background-color: yellow;
-      -webkit-transform: translateZ(-700px) rotateY(180deg);
-      transform: translateZ(-700px) rotateY(180deg);
-    }
-    .right {
-      background-color: green;
-      -webkit-transform: rotateY(270deg) translateX(-700px);
-    	-webkit-transform-origin: center left;
-    	transform: rotateY(270deg) translateX(-700px);
-    	transform-origin: center left;
-    }
-    .bottom {
-      background-color: blue;
-      -webkit-transform: rotateX(90deg) translateY(100px);
-      -webkit-transform-origin: bottom center;
-      transform: rotateX(90deg) translateY(100px);
-    	transform-origin: bottom center;
-    }
-  </style>
 </head>
 <body>
 <div class="container-fluid">
   <div class="row-fluid">
-    <div class="span12" style="padding: 10px 0px;">
-      <h1>Zurich Risk Room Prototype</h1>
-    </div>
-  </div>
-  <div class="row-fluid">
-    <div class="span4">
+    <div class="span3">
       <form class="well">
         <label class="control-label" for="countries">Choose your Countries:</label>
         <select id="countries" multiple="multiple">
@@ -253,7 +210,7 @@
         <div id="drag" class="drag"></div>
       </form>
     </div>
-    <div class="span8">
+    <div class="span9">
       <div class="tabbable">
         <ul class="nav nav-tabs">
           <li class="active">
@@ -268,19 +225,24 @@
             <div id="table" class="shiny-html-output"></div>
           </div>
           <div class="tab-pane" id="tab-7001-2">
-            <div class="wrap">
-              <div class="cube">
-                <div class="bottom">
+            <button onclick="LibZRR.view3D();">3D</button>
+            <button onclick="LibZRR.viewMDM();">MDM</button>
+            <button onclick="LibZRR.viewxWall();">x-Wall</button>
+            <button onclick="LibZRR.viewyWall();">y-Wall</button>
+            <button onclick="LibZRR.shuffle();">shuffle</button>
+            <div class="container">
+              <div id="riskroom" class="cube">
+                <div id="mdmPane" class="bottom-3d">
                   <div id="mdmPlot" class="shiny-html-output"></div>
                 </div>
-                <div class="left">
+                <div id="xRiskPane" class="back-3d">
                   <div id="xRiskWall" class="shiny-html-output"></div>
                 </div>
-                <div class="right">
-                  <div id="yRiskWall" class="shiny-html-output"></div>
+                <div id="yRiskPane" class="left-3d">
+                  <div id="yRiskWall" class="shiny-html-output"></div
                 </div>
-              </div>
-            </div>  
+              </div>              
+            </div>         
           </div>          
         </div>
       </div>
