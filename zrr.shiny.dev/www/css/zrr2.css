@@ -1,0 +1,28 @@
+/* styles for the different views */
+
+.container {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  -webkit-perspective: 1800px;
+  -moz-perspective: 1800px;
+  -ms-perspective: 1800px;
+}
+.cube {
+  position: absolute;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -ms-transform-style: preserve-3d;
+}
+.pane {
+  /* common style for all the cube's faces (bottom, left, back) */
+  background-color: blue;
+  position: absolute;
+  border: 2px solid black;
+  -webkit-transform-origin: 0 0 0;
+  -moz-transform-origin: 0 0 0;
+  -ms--transform-origin: 0 0 0;
+  -webkit-transition: transform 1s;
+  -moz-transition: transform 1s;
+  -ms-transition: transform 1s;
+}
