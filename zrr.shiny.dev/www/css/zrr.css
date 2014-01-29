@@ -1,5 +1,20 @@
 /* styles for the different views */
 
+
+.riskroom-output {
+  height: 800px;
+  width: 800px;
+  position: relative;
+  -webkit-perspective: 1800px;
+  -webkit-perspective-origin: 70% 25%;
+  -webkit-transform: translateX(5%) translateY(5%);
+  -moz-perspective: 1800px;
+  -moz-perspective-origin: 70% 25%;         
+  -ms-perspective: 1800px;
+  -ms-perspective-origin: 70% 25%;
+  -ms-transform: translateX(5%) translateY(5%);
+}
+
 .container {
   height: 800px;
   width: 800px;
@@ -23,7 +38,7 @@
 }
 .cube div {
   /* common style for all the cube's faces (bottom, left, back) */
-	width: 600px;
+  width: 600px;
 	height: 600px;
   background-color: blue;
   position: absolute;

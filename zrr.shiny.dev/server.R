@@ -1,64 +1,29 @@
-require(rCharts)
 require(stringr)
 library(shiny)
 library(plyr)
 
 
-shinyServer(function(input, output) {
+crimMatrix <- function(expr, env=parent.frame(), quoted=FALSE) {
+  # Convert expr to a function
+  func <- shiny::exprToFunction(expr, env, quoted)
   
-  
-  # Risk Room Charts (MDM, x and y walls, table display)
-  # ========================================================= #
-  
-  # The MDM scatter plot
-  output$mdmPlot <- renderChart({
-    r <- riskValues();      
-    if (length(r)) {        
-      
-      p1 <- Highcharts$new()        
-      p1$chart(type='bubble',zoomType='xy')
-      p1$xAxis(min=0,max=1)        
-      p1$yAxis(min=0,max=1)
-      apply(r$mdm,1,function(x) {
-        p1$series(
-          name = as.character(x[1]),
-          data = list(as.numeric(x[2:4]))
-        )
-      })
-      p1$addParams(dom = 'mdmPlot');
-      return(p1)         
-    }      
-  })
-  
-  # The x Risk Wall
-  output$xRiskWall <- renderChart({    
-    r <- riskValues();        
-    p1 <- riskWallPlot(x="INDICATOR_NAME",y="INDICATOR_VALUE",
-                        data=r$xRisks, bpd = r$xbpd, type="line",
-                        group="GEO_NAME", title="x Risks");        
-    p1$addParams(dom = 'xRiskWall');
-    return(p1);
-        
-  })
-  
-  # The y Risk Wall
-  output$yRiskWall <- renderChart({    
-    r <- riskValues();
-    p1 <- riskWallPlot(x="INDICATOR_NAME",y="INDICATOR_VALUE",
-                        data=r$yRisks, bpd = r$ybpd, type="line",
-                        group="GEO_NAME", title="y Risks");
-    p1$addParams(dom = 'yRiskWall');
-    return(p1);
+  function() {
+    value <- func()
+    value
+  }
+}
 
-    })
+riskRoom <- function(expr, env=parent.frame(), quoted=FALSE) {
+  # Convert expr to a function
+  func <- shiny::exprToFunction(expr, env, quoted)
   
-  # The table output
-  output$table <- renderTable({
-    r <- riskValues();
-    if (length(r)) {
-      r$mdm;
-    }        
-  })     
+  function() {
+    value <- func()
+    value
+  }
+}
+
+shinyServer(function(input, output) {     
   
   
   # Conditionally create output widgets for xRisks and yRisks
@@ -82,49 +47,52 @@ shinyServer(function(input, output) {
     selectInput("yRisks", "Choose y Risk:", 
                 choices = riskSelection, multiple=TRUE)      
   })
+  
 
-
+  # The table output
+  output$table <- renderTable({
+    r <- riskValues();
+    if (length(r)) {
+      r$mdm;
+    }        
+  })
+  
+  # The risk room
+  output$rr1 <- riskRoom({
+    r <- riskValues();
+    if (length(r)) {
+#       series = list();
+#       apply(r$mdm,1,function(x) {
+#         series(
+#           name = as.character(x[1]),
+#           data = list(as.numeric(x[2:4]))
+#         )
+#       })
+      r;
+    }   
+  });
+  
+  # CRIM cords
+  output$mainnet <- crimMatrix({
+    data[input$sourceRisks];
+  });
+  
+  
+  # CRIM table
+  output$crimtable = renderDataTable({
+    data[input$sourceRisks];
+  }, 
+  options = list(bSortClasses = TRUE))  
+  
+  
   # Reactive input: get countries, risks, period selection
   # Perform calculations and return results
   # ========================================================= #
   
   # query the risk values using filters countries, risks, period
-  riskValues <- reactive({            
-    if(length(input$countries) && length(input$xRisks) && length(input$yRisks)) {    
+  riskValues <- reactive({      
+    if(!is.null(input$countries) && !is.null(input$xRisks) && !is.null(input$yRisks)) {    
       calculateMDM(input$countries,input$xRisks,input$yRisks,input$period)      
-#       period <- periods[input$period,][,"PERIOD_ID"]    
-#       xrIds <- subset(risknames, INDICATOR_NAME %in% input$xRisks, select=INDICATOR_ID)
-#       xrIds <- paste(xrIds[,1],collapse=",")    
-#       query <- paste("SELECT FK_INDICATOR, FK_GEO_UNIT, INDICATOR_VALUE, 'x' as WALL ",
-#                      "FROM RR_INDICATOR_VALUE"," ",
-#                      "WHERE FK_TIME_PERIOD = ",period," ",
-#                      "AND FK_INDICATOR IN (", as.character(xrIds),")",sep="")
-#       xRisks  <- sqlQuery(con,query)
-#       xBpdata <- getFiveNums(xRisks)
-#       xRisks <- merge(xRisks,countries,by.x="FK_GEO_UNIT",by.y="GEO_UNIT_ID")[,c("FK_GEO_UNIT","GEO_NAME","FK_INDICATOR","INDICATOR_VALUE","WALL")]
-#       xRisks <- merge(xRisks,risknames,by.x="FK_INDICATOR",by.y="INDICATOR_ID")[,c("FK_GEO_UNIT","FK_INDICATOR","GEO_NAME","INDICATOR_NAME","INDICATOR_VALUE","WALL")]    
-#       xRisks <- subset(xRisks, GEO_NAME %in% input$countries)
-#       
-#       yrIds <- subset(risknames, INDICATOR_NAME %in% sxRisks, select=INDICATOR_ID)
-#       yrIds <- paste(yrIds[,1],collapse=",")
-#       query <- paste("SELECT FK_INDICATOR, FK_GEO_UNIT, INDICATOR_VALUE, 'y' as WALL ",
-#                      "FROM RR_INDICATOR_VALUE"," ",
-#                      "WHERE FK_TIME_PERIOD = ",period," ",
-#                      "AND FK_INDICATOR IN (", as.character(yrIds),")",sep="")
-#       yRisks  <- sqlQuery(con,query)
-#       yBpdata <- getFiveNums(yRisks)
-#       yRisks <- merge(yRisks,countries,by.x="FK_GEO_UNIT",by.y="GEO_UNIT_ID")[,c("FK_GEO_UNIT","GEO_NAME","FK_INDICATOR","INDICATOR_VALUE","WALL")]
-#       yRisks <- merge(yRisks,risknames,by.x="FK_INDICATOR",by.y="INDICATOR_ID")[,c("FK_GEO_UNIT","FK_INDICATOR","GEO_NAME","INDICATOR_NAME","INDICATOR_VALUE","WALL")]    
-#       yRisks <- subset(yRisks, GEO_NAME %in% input$countries)
-#       
-#       # calculate mdm
-#       u <- aggregate(xRisks[,"INDICATOR_VALUE"],by=list(xRisks[,"GEO_NAME"]),FUN=rMdm)[,2]
-#       v <- aggregate(yRisks[,"INDICATOR_VALUE"],by=list(yRisks[,"GEO_NAME"]),FUN=rMdm)[,2]
-#       mdm <- cbind(input$countries,u,v,0.1)
-#       mdm <- as.data.frame(mdm)
-#       
-#       results <- list(mdm = mdm, xRisks = xRisks, yRisks = yRisks, xbpd = xBpdata, ybpd = yBpdata)
-#       return(results)      
     }
   })
 })
@@ -177,128 +145,16 @@ calculateMDM <- function(sCountries,sxRisks,syRisks,sPeriod) {
 }
 
 
-# Plot Risk Room Wall using HighCharts
-# Plot includes boxplots & draggableY event listener for "what-if"
-# What-if calculations implemented in javascript -> cf. file "zrrlib.js"
-#
-riskWallPlot <- function(..., radius = 3, title = NULL, subtitle = NULL, group.na = NULL){
-  rChart <- Highcharts$new()
-    
-  
-  # Get layers
-  d <- getLayer(...)
-  
-  data <- data.frame(
-    x = d$data[[d$x]],
-    y = d$data[[d$y]]
-  )  
-  
-  # add boxplots
-  bd <- d$bpd[1][[1]]
-  for(i in 2:length(d$bpd)) {
-    bd <- rbind(bd,d$bpd[i][[1]])
-  }
-  rChart$series(        
-    name = "Boxplots",
-    data = bd,
-    type = "boxplot" 
-  )  
-    
-  if (!is.null(d$group)) {
-    data$group <- as.character(d$data[[d$group]])
-    if (!is.null(group.na)) {
-      data$group[is.na(data$group)] <- group.na
-    }
-  }
-  if (!is.null(d$size)) data$size <- d$data[[d$size]]
-  
-  nrows <- nrow(data)
-  data <- na.omit(data)  # remove remaining observations with NA's
-  
-  if (nrows != nrow(data)) warning("Observations with NA has been removed")
-  
-  data <- data[order(data$x, data$y), ]  # order data (due to line charts)
-  
-  if ("bubble" %in% d$type && is.null(data$size)) stop("'size' is missing")
-  
-  if (!is.null(d$group)) {
-    groups <- sort(unique(data$group))
-    types <- rep(d$type, length(groups))  # repeat types to match length of groups
-    
-    plyr::ddply(data, .(group), function(x) {
-      g <- unique(x$group)
-      i <- which(groups == g)
-      
-      x$group <- NULL  # fix
-      rChart$series(
-        data = toJSONArray2(x, json = F, names = F),
-        name = g,
-        type = types[[i]],
-        marker = list(radius = radius),
-        draggableY = TRUE,
-        
-        ## what-if bindings        
-        cursor = "ns-resize",
-        point = list(
-          events = list(
-            drop = "#! function() { LibZRR.whatif(this); } !#" )        
-        ),
-        stickyTracking = TRUE        
-      )       
-      
-      return(NULL)
-    })
-  } else {
-    
-    rChart$series(
-      data = toJSONArray2(data, json = F, names = F),
-      type = d$type[[1]],
-      marker = list(radius = radius),
-      draggableY = TRUE
-    )        
-        
-    rChart$legend(enabled = FALSE)
-  }
-  
-  
-  # Fix defaults  
-  ## xAxis
-  if (is.categorical(data$x)) {
-    rChart$xAxis(title = list(text = d$x), categories = unique(as.character(data$x)), replace = T)
-  } else {
-    rChart$xAxis(title = list(text = d$x), replace = T)
-  }
-  
-  ## yAxis
-  if (is.categorical(data$y)) {
-    rChart$yAxis(min=0, max=1, title = list(text = d$y), categories = unique(as.character(data$y)), replace = T)
-  } else {
-    rChart$yAxis(min=0, max=1, title = list(text = d$y), replace = T)
-  }
-  
-  ## title
-  rChart$title(text = title, replace = T)
-  
-  ## subtitle
-  rChart$subtitle(text = subtitle, replace = T)
-  
-  
-  ## load event -> trigger copy of data onto javascript data structures
- rChart$chart(events = list(
-     load = "#! function() { LibZRR.copyWallData(this); } !#" )
- )
-  
-  return(rChart$copy())
-}
-
-# calculates the boxplot fivenums on the "results" dataframe,
-# adds them and returns the dataframe
+# calculates the boxplot fivenums on the "results" dataframe
 # results is expected as "FK_INDICATOR","FK_GEO_UNIT","INDICATOR_VALUE","WALL"
-# TODO: THERE MUST BE A MORE EFFICIENT WAY TO DO THIS!! ALSO, BELOW CODE CREATES
-# LOADS OF COMPLAINTS ABOUT FACTOR LEVELS....
 getFiveNums <- function(results) {
-  t <- tapply(results[,"INDICATOR_VALUE"],factor(results[,"FK_INDICATOR"]),fivenum)  
-  return(t);                                    
+  t <- ddply(results[,c("FK_INDICATOR","INDICATOR_VALUE")],.(FK_INDICATOR),summarize,
+             "lowerwhisker"=quantile(INDICATOR_VALUE,0.25)-1.5*(quantile(INDICATOR_VALUE,0.75)-quantile(INDICATOR_VALUE,0.25)),
+             "percentile25"=quantile(INDICATOR_VALUE,0.25),
+             "median"=quantile(INDICATOR_VALUE,0.5),
+             "percentile75"=quantile(INDICATOR_VALUE,0.75),
+             "upperwhisker"=quantile(INDICATOR_VALUE,0.75)+1.5*(quantile(INDICATOR_VALUE,0.75)-quantile(INDICATOR_VALUE,0.25)))
+  return(t(t));                                    
 }
 
 # calculates the l2 norm of a vector v
@@ -310,6 +166,7 @@ l2 <- function(v) {
 
 # mdm-aggregation of a set of risks onto wall
 rMdm <- function(v) {
+  # for now....
   ret <- sqrt(l2(v)/length(v))
   return(ret);
 }

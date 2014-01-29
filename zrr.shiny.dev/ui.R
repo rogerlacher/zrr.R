@@ -1,22 +1,20 @@
-require(rCharts)
 library(shiny)
 
-
-includeDraggableJS <- function() {
-  tagList(tags$head(
-    #tags$script(src = "https://rawgithub.com/highslide-software/draggable-points/master/draggable-points.js"),
-    tags$script(src = "js/draggable-points.js"),
-    #tags$script(src = "js/drag.js"),
-    tags$script(src = "js/zrrlib.js")
-  ))
+crimChord <- function (outputId) 
+{
+  HTML(paste("<div id=\"", outputId, "\" class=\"shiny-network-output\"><svg /></div>", sep=""))
 }
 
+riskRoom3D <- function (outputId) 
+{
+  HTML(paste("<div id=\"", outputId, "\" class=\"riskroom-output\"></div>", sep=""))
+}
 
-# Define UI for application that plots random distributions 
-shinyUI(pageWithSidebar(
+shinyUI(pageWithSidebar(    
   
   # Application title
-  headerPanel("Zurich Risk Room Prototype"),
+  #headerPanel("Risk Room", "Risk Room"),
+  headerPanel("","Risk Room"),
   
   # Sidebar with a slider input for number of observations
   sidebarPanel(
@@ -38,17 +36,27 @@ shinyUI(pageWithSidebar(
                 value=1,
                 step=1),
     
-    tag("div",list(id="drag", class="drag"))
+    tag("div",list(id="drag", class="drag")),
+
+    HTML("<hr />"),
+    
+    selectInput(inputId = "sourceRisks",
+                label="Select the source risks:",
+                choices = risks,
+                selected = sample(risks,round(length(risks)/3)),
+                multiple = TRUE)    
   ),
   
   # Show a plot of the generated distribution
   mainPanel(
-    tabsetPanel(
-      tabPanel("MDM Plot", showOutput("mdmPlot","Highcharts")),
-      tabPanel("x Risk Walls",showOutput("xRiskWall", "Highcharts")),
-      tabPanel("y Risk Walls",showOutput("yRiskWall", "Highcharts")),
-      tabPanel("Values Table", tableOutput("table"))
-      ),
-    includeDraggableJS()
-  )
+    includeHTML("www/js/room.js"),
+    includeHTML("www/js/graph.js"),
+    tabsetPanel(         
+      tabPanel("Chords",crimChord(outputId = "mainnet")),
+      tabPanel("Table", dataTableOutput("crimtable")),
+      tabPanel("Values Table", tableOutput("table")),
+      tabPanel("ThreeD", riskRoom3D(outputId =  "rr1"))     
+    )
+  )  
+
 ))

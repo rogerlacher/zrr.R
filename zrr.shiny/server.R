@@ -1,138 +1,283 @@
+require(rCharts)
+require(stringr)
+library(shiny)
+library(plyr)
 
-# server logic for ZRR
+
 shinyServer(function(input, output) {
     
   
-  #calculate the rMDM from the inputs
-  rMDMTable <- reactive({
-    if(length(input$countries)>0 && length(input$xRisks)>0  && length(input$yRisks)> 0) {
-      # subset dataset by selected input countries
-      #r1 <- subset(r,Country.Name %in% input$countries)
-      # restrict to selected timestamp
-      #r1 <- subset(r1,Date == levels(r[,"Date"])[input$timeIndex])      
-      # call the rMDM algorithm    
-      #rMDM_Motion(r1,match(input$xRisks, colnames(r)), match(input$yRisks, colnames(r)))
+  # Risk Room Charts (MDM, x and y walls, table display)
+  # ========================================================= #
+  
+  # The MDM scatter plot
+  output$mdmPlot <- renderChart({
+    r <- riskValues();      
+    if (length(r)) {        
       
-      # TODO: This is all very inefficient, as the same things are calculated over and over 
-      #       again:
-      #      -> match(risks|countries)   -> only used here to get positions
-      #                                  -> positions are then again used to look up values
-      #                                     such as risk %in% risklevels[p] in function rMDMm
-      #              -> simplify the expression: "risk %in% risklevels[match(input$xRisks,risklevels)]"
-      #rMDMm_Motion(rm,input$timeIndex,match(input$xRisks,risklevels),
-      #             match(input$yRisks,risklevels),match(input$countries,countrylevels))
-      rMDMmS(rm,input$timeIndex,input$xRisks,input$yRisks,input$countries)
-     }
+      p1 <- Highcharts$new()        
+      p1$chart(type='bubble',zoomType='xy')
+      p1$xAxis(min=0,max=1)        
+      p1$yAxis(min=0,max=1)
+      apply(r$mdm,1,function(x) {
+        p1$series(
+          name = as.character(x[1]),
+          data = list(as.numeric(x[2:4]))
+        )
+      })
+      p1$addParams(dom = 'mdmPlot');
+      return(p1)         
+    }      
   })
   
-  # Risk Room Floor
-  output$mdm <- renderPlot({
-    if (length(rMDMTable()) > 0)  {
-      mdm <- rMDMTable();
-      p <- ggplot(data=mdm,aes(x=qx,y=qy)) + labs(title="Risk Room floor") + xlab("x-Risks") + ylab("y-Risks") + xlim(0,1) + ylim(0,1);
-      p <- p + geom_point(aes(size=abs(rnorm(length(Country.Name))),color=factor(Country.Name)));
-      p <- p + geom_text(aes(label=Country.Name), size=3);
-      print(p);
-    }
-  })  
+  # The x Risk Wall
+  output$xRiskWall <- renderChart({    
+    r <- riskValues();        
+    p1 <- riskWallPlot(x="INDICATOR_NAME",y="INDICATOR_VALUE",
+                        data=r$xRisks, bpd = r$xbpd, type="line",
+                        group="GEO_NAME", title="x Risks");        
+    p1$addParams(dom = 'xRiskWall');
+    return(p1);
+        
+  })
   
-  # Risk Walls
-  output$walls <- renderPlot({
-    # restrict molten dataset to selected timestamp
-    rmx <- subset(rm,Date == levels(rm[,"Date"])[input$timeIndex] & risk %in% input$xRisks)
-    rmxc <- subset(rmx,Country.Name %in% input$countries)
-    rmy = subset(rm,Date == levels(rm[,"Date"])[input$timeIndex] & risk %in% input$yRisks)
-    rmyc <- subset(rmy,Country.Name %in% input$countries)
-    
-    xRisks <- ggplot() + geom_boxplot(data=rmx,aes(x=risk,y=value)) + xlab("x-Risks") + ylab("Value")
-    xRisks <- xRisks + geom_line(data=rmxc,aes(x=risk,y=value,group=Country.Name,color=Country.Name))
-    xRisks <- xRisks + geom_point(data=rmxc,aes(x=risk,y=value,group=Country.Name,color=Country.Name))         
+  # The y Risk Wall
+  output$yRiskWall <- renderChart({    
+    r <- riskValues();
+    p1 <- riskWallPlot(x="INDICATOR_NAME",y="INDICATOR_VALUE",
+                        data=r$yRisks, bpd = r$ybpd, type="line",
+                        group="GEO_NAME", title="y Risks");
+    p1$addParams(dom = 'yRiskWall');
+    return(p1);
 
-    yRisks <- ggplot() + geom_boxplot(data=rmy,aes(x=risk,y=value)) + xlab("y-Risks") + ylab("Value")
-    yRisks <- yRisks + geom_line(data=rmyc,aes(x=risk,y=value,group=Country.Name,color=Country.Name))
-    yRisks <- yRisks + geom_point(data=rmyc,aes(x=risk,y=value,group=Country.Name,color=Country.Name))         
-    
-    stackedplot <- grid.arrange(xRisks, yRisks, nrow=2)
-    print(stackedplot)
-  })
+    })
   
-  # Choropleth map for selected risk
-  output$choropleth <- renderGvis({
-    # display choropleth map of selected risk
-    # restrict to selected timestamp
-    gvisGeoChart(subset(r,Date == levels(r[,"Date"])[input$timeIndex])[,c("Code",input$heatRisk)], "Code", input$heatRisk)    
-  })     
-  
-  # MDM as a table
+  # The table output
   output$table <- renderTable({
-    # display MDM table
-    if (length(rMDMTable()) > 0) {
-      rMDMTable()[,-2]
+    r <- riskValues();
+    if (length(r)) {
+      r$mdm;
     }        
   })     
   
-  # conditionally create output widgets for xRisks and yRisks
+  
+  # Conditionally create output widgets for xRisks and yRisks
   # based on the xRiskCategory and yRiskCategory selections
+  # ========================================================= #
+  
+  # x-Risks selection menu
   output$xRisks <- renderUI({
-    riskSelection <- unlist(rh[[input$xRiskCategory]],use.names=FALSE)
+    riskSelection <- unlist(subset(risknames,
+                                   INDICATOR_CATEGORY==input$xRiskCategory,
+                                   select=INDICATOR_NAME),use.names=FALSE)
     selectInput("xRisks", "Choose x Risk:", 
                 choices = riskSelection, multiple=TRUE)      
   })
   
+  # y-Risks selection menu
   output$yRisks<- renderUI({
-    riskSelection <- unlist(rh[[input$yRiskCategory]],use.names=FALSE)
+    riskSelection <- unlist(subset(risknames,
+                                   INDICATOR_CATEGORY==input$yRiskCategory,
+                                   select=INDICATOR_NAME),use.names=FALSE)
     selectInput("yRisks", "Choose y Risk:", 
-                choices = riskSelection, multiple=TRUE)
+                choices = riskSelection, multiple=TRUE)      
   })
-  
-  if(FALSE) {
-    
-  
-    # Google Motion MDM
-    output$motion <- renderGvis({
-      if (length(rMDMTable()) > 0) {
-        # display MDM Scatter Plot
-        mdm <- rMDMTable()
-        # restrict to selected timestamp
-        #mdm <- subset(mdm, Date == levels(r[,"Date"])[input$timeIndex])
-        gvisMotionChart(mdm, idvar="Country.Name", timevar="Date", options=list(height=580, width=800))                
-      }
-    })
-    
-    # Country Ratings
-    output$spratings <- renderGvis({
-      gvisGeoChart(x, "Country", "Ranking",
-                   options=list(gvis.editor="S&P",
-                                projection="kavrayskiy-vii",
-                                colorAxis="{colors:['#91BFDB', '#FC8D59']}"));
-    })
-    
-    # Recent Earthquakes
-    output$quakes <- renderGvis({
-      gvisGeoChart(eq, "loc", "Depth", "Magnitude",
-                   options=list(displayMode="Markers", 
-                                colorAxis="{colors:['purple', 'red', 'orange', 'grey']}",
-                                backgroundColor="lightblue"), chartid="EQ");
-    })
-  
-    # World Bank Development Indicators
-    output$wdi <- renderPlot({
-      if(length(input$countries)>0) {
-        countryCodes <- subset(countries,Country.Name %in% input$countries, select="Code")
-        inds <- WDIsearch(string = input$wdiIndicator)
-        theIndicator <- inds[inds[,"name"] == input$wdiIndicator,"indicator"]
-        DF <- WDI(country=countryCodes$Code,indicator=theIndicator, start=1990, end=2013)
-       # ggplot(DF, mapping=aes(year, as.symbol(theIndicator), color=country))+geom_line(stat="identity")+theme_bw()+xlab("Year")+labs(title=input$wdiIndicator)+ylab("")      
-        ggplot(DF, mapping=aes(year, 3, color=country))+geom_line(stat="identity")+theme_bw()+xlab("Year")+labs(title=input$wdiIndicator)+ylab("")      
-      }
-    })
 
-    output$wdiIndicator <- renderUI({
-      wdiIndicators <- WDIsearch(string = input$wdiSearch)[,"name"]
-      selectInput("wdiIndicator", "Choose Indicator:", 
-                  choices = wdiIndicators, multiple=FALSE)      
-    })
-    
-  }    
 
+  # Reactive input: get countries, risks, period selection
+  # Perform calculations and return results
+  # ========================================================= #
+  
+  # query the risk values using filters countries, risks, period
+  riskValues <- reactive({      
+    if(!is.null(input$countries) && !is.null(input$xRisks) && !is.null(input$yRisks)) {    
+        calculateMDM(input$countries,input$xRisks,input$yRisks,input$period)      
+    }
+  })
 })
+
+
+
+
+
+
+
+
+# ===================================== Functions ===========================================#
+# Functions that can go outside server.R-> store these in different file to unclutter server.R
+
+
+calculateMDM <- function(sCountries,sxRisks,syRisks,sPeriod) {
+  period <- periods[sPeriod,][,"PERIOD_ID"]    
+  xrIds <- subset(risknames, INDICATOR_NAME %in% sxRisks, select=INDICATOR_ID)
+  xrIds <- paste(xrIds[,1],collapse=",")    
+  query <- paste("SELECT FK_INDICATOR, FK_GEO_UNIT, INDICATOR_VALUE, 'x' as WALL ",
+                 "FROM RR_INDICATOR_VALUE"," ",
+                 "WHERE FK_TIME_PERIOD = ",period," ",
+                 "AND FK_INDICATOR IN (", as.character(xrIds),")",sep="")
+  xRisks  <- sqlQuery(con,query)
+  xBpdata <- getFiveNums(xRisks)
+  xRisks <- merge(xRisks,countries,by.x="FK_GEO_UNIT",by.y="GEO_UNIT_ID")[,c("FK_GEO_UNIT","GEO_NAME","FK_INDICATOR","INDICATOR_VALUE","WALL")]
+  xRisks <- merge(xRisks,risknames,by.x="FK_INDICATOR",by.y="INDICATOR_ID")[,c("FK_GEO_UNIT","FK_INDICATOR","GEO_NAME","INDICATOR_NAME","INDICATOR_VALUE","WALL")]    
+  xRisks <- subset(xRisks, GEO_NAME %in% sCountries)
+  
+  yrIds <- subset(risknames, INDICATOR_NAME %in% syRisks, select=INDICATOR_ID)
+  yrIds <- paste(yrIds[,1],collapse=",")
+  query <- paste("SELECT FK_INDICATOR, FK_GEO_UNIT, INDICATOR_VALUE, 'y' as WALL ",
+                 "FROM RR_INDICATOR_VALUE"," ",
+                 "WHERE FK_TIME_PERIOD = ",period," ",
+                 "AND FK_INDICATOR IN (", as.character(yrIds),")",sep="")
+  yRisks  <- sqlQuery(con,query)
+  yBpdata <- getFiveNums(yRisks)
+  yRisks <- merge(yRisks,countries,by.x="FK_GEO_UNIT",by.y="GEO_UNIT_ID")[,c("FK_GEO_UNIT","GEO_NAME","FK_INDICATOR","INDICATOR_VALUE","WALL")]
+  yRisks <- merge(yRisks,risknames,by.x="FK_INDICATOR",by.y="INDICATOR_ID")[,c("FK_GEO_UNIT","FK_INDICATOR","GEO_NAME","INDICATOR_NAME","INDICATOR_VALUE","WALL")]    
+  yRisks <- subset(yRisks, GEO_NAME %in% sCountries)
+  
+  # calculate mdm
+  u <- aggregate(xRisks[,"INDICATOR_VALUE"],by=list(xRisks[,"GEO_NAME"]),FUN=rMdm)[,2]
+  v <- aggregate(yRisks[,"INDICATOR_VALUE"],by=list(yRisks[,"GEO_NAME"]),FUN=rMdm)[,2]
+  mdm <- cbind(sCountries,u,v,0.1)
+  mdm <- as.data.frame(mdm)
+  
+  results <- list(mdm = mdm, xRisks = xRisks, yRisks = yRisks, xbpd = xBpdata, ybpd = yBpdata)
+  return(results)
+}
+
+
+# Plot Risk Room Wall using HighCharts
+# Plot includes boxplots & draggableY event listener for "what-if"
+# What-if calculations implemented in javascript -> cf. file "zrrlib.js"
+#
+riskWallPlot <- function(..., radius = 3, title = NULL, subtitle = NULL, group.na = NULL){
+  rChart <- Highcharts$new()
+    
+  
+  # Get layers
+  d <- getLayer(...)
+  
+  data <- data.frame(
+    x = d$data[[d$x]],
+    y = d$data[[d$y]]
+  )  
+  
+  # add boxplots
+  bd <- d$bpd[1][[1]]
+  for(i in 2:length(d$bpd)) {
+    bd <- rbind(bd,d$bpd[i][[1]])
+  }
+  rChart$series(        
+    name = "Boxplots",
+    data = bd,
+    type = "boxplot" 
+  )  
+    
+  if (!is.null(d$group)) {
+    data$group <- as.character(d$data[[d$group]])
+    if (!is.null(group.na)) {
+      data$group[is.na(data$group)] <- group.na
+    }
+  }
+  if (!is.null(d$size)) data$size <- d$data[[d$size]]
+  
+  nrows <- nrow(data)
+  data <- na.omit(data)  # remove remaining observations with NA's
+  
+  if (nrows != nrow(data)) warning("Observations with NA has been removed")
+  
+  data <- data[order(data$x, data$y), ]  # order data (due to line charts)
+  
+  if ("bubble" %in% d$type && is.null(data$size)) stop("'size' is missing")
+  
+  if (!is.null(d$group)) {
+    groups <- sort(unique(data$group))
+    types <- rep(d$type, length(groups))  # repeat types to match length of groups
+    
+    plyr::ddply(data, .(group), function(x) {
+      g <- unique(x$group)
+      i <- which(groups == g)
+      
+      x$group <- NULL  # fix
+      rChart$series(
+        data = toJSONArray2(x, json = F, names = F),
+        name = g,
+        type = types[[i]],
+        marker = list(radius = radius),
+        draggableY = TRUE,
+        
+        ## what-if bindings        
+        cursor = "ns-resize",
+        point = list(
+          events = list(
+            drop = "#! function() { LibZRR.whatif(this); } !#" )        
+        ),
+        stickyTracking = TRUE        
+      )       
+      
+      return(NULL)
+    })
+  } else {
+    
+    rChart$series(
+      data = toJSONArray2(data, json = F, names = F),
+      type = d$type[[1]],
+      marker = list(radius = radius),
+      draggableY = TRUE
+    )        
+        
+    rChart$legend(enabled = FALSE)
+  }
+  
+  
+  # Fix defaults  
+  ## xAxis
+  if (is.categorical(data$x)) {
+    rChart$xAxis(title = list(text = d$x), categories = unique(as.character(data$x)), replace = T)
+  } else {
+    rChart$xAxis(title = list(text = d$x), replace = T)
+  }
+  
+  ## yAxis
+  if (is.categorical(data$y)) {
+    rChart$yAxis(min=0, max=1, title = list(text = d$y), categories = unique(as.character(data$y)), replace = T)
+  } else {
+    rChart$yAxis(min=0, max=1, title = list(text = d$y), replace = T)
+  }
+  
+  ## title
+  rChart$title(text = title, replace = T)
+  
+  ## subtitle
+  rChart$subtitle(text = subtitle, replace = T)
+  
+  
+  ## load event -> trigger copy of data onto javascript data structures
+ rChart$chart(events = list(
+     load = "#! function() { LibZRR.copyWallData(this); } !#" )
+ )
+  
+  return(rChart$copy())
+}
+
+# calculates the boxplot fivenums on the "results" dataframe,
+# adds them and returns the dataframe
+# results is expected as "FK_INDICATOR","FK_GEO_UNIT","INDICATOR_VALUE","WALL"
+# TODO: THERE MUST BE A MORE EFFICIENT WAY TO DO THIS!! ALSO, BELOW CODE CREATES
+# LOADS OF COMPLAINTS ABOUT FACTOR LEVELS....
+getFiveNums <- function(results) {
+  t <- tapply(results[,"INDICATOR_VALUE"],factor(results[,"FK_INDICATOR"]),fivenum)  
+  return(t);                                    
+}
+
+# calculates the l2 norm of a vector v
+# ===================================================
+l2 <- function(v) {
+  ret <- sum(v^2);
+  return(ret);
+}
+
+# mdm-aggregation of a set of risks onto wall
+rMdm <- function(v) {
+  # for now....
+  ret <- sqrt(l2(v)/length(v))
+  return(ret);
+}

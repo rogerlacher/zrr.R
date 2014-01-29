@@ -1,3 +1,8 @@
+<link rel="stylesheet" type="text/css" href="../css/zrr.css"/>
+<script src="js/highcharts.js"></script>
+<script src="js/highcharts-more.js"></script>
+<script src="js/draggable-points.js"></script>
+<script type="text/javascript">
 /*
  * LibZRR - Javascript implementation of basic Zurich Risk Room algorithms
  * 
@@ -8,8 +13,7 @@
  */
 
 
-LibZRR = window.LibZRR || {};
-
+//LibZRR = window.LibZRR || {};
 /* follow the module pattern */
 var LibZRR = (function() {
   
@@ -54,7 +58,6 @@ var LibZRR = (function() {
   
   // copy this risk wall data onto corresponding javascript datastructure
   _copyWallData = function(chart) {
-    console.log('copying wall data....')
     xRisks = chart.series;
     console.log(xRisks)
   }  
@@ -107,3 +110,4 @@ var LibZRR = (function() {
   };
   
 }());
+</script>
