@@ -1,0 +1,73 @@
+/* styles for the different views */
+
+
+.riskroom-output {
+  height: 800px;
+  width: 800px;
+  position: relative;
+  -webkit-perspective: 1800px;
+  -webkit-perspective-origin: 70% 25%;
+  -webkit-transform: translateX(5%) translateY(5%);
+  -moz-perspective: 1800px;
+  -moz-perspective-origin: 70% 25%;         
+  -ms-perspective: 1800px;
+  -ms-perspective-origin: 70% 25%;
+  -ms-transform: translateX(5%) translateY(5%);
+}
+
+.container {
+  height: 800px;
+  width: 800px;
+  position: relative;
+  -webkit-perspective: 1800px;
+  -webkit-perspective-origin: 70% 25%;
+  -webkit-transform: translateX(5%) translateY(5%);
+  -moz-perspective: 1800px;
+  -moz-perspective-origin: 70% 25%;         
+  -ms-perspective: 1800px;
+  -ms-perspective-origin: 70% 25%;
+  -ms-transform: translateX(5%) translateY(5%);
+}
+.cube {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -ms-transform-style: preserve-3d;
+}
+.cube div {
+  /* common style for all the cube's faces (bottom, left, back) */
+  width: 600px;
+	height: 600px;
+  background-color: blue;
+  position: absolute;
+  border: 2px solid black;
+  -webkit-transition: transform 1s;
+  -moz-transition: transform 1s;
+  -ms-transition: transform 1s;
+}
+.back-3d {
+  -webkit-transform: translateZ(-600px);
+  -moz-transform: translateZ(-600px);
+  -ms-transform: translateZ(-600px);  
+}
+.left-3d {  
+  -webkit-transform-origin: center left;
+  -webkit-transform: rotateY(90deg);
+  -moz-transform-origin: center left;
+  -moz-transform: rotateY(90deg);
+  -ms-transform-origin: center left;
+  -ms-transform: rotateY(90deg);  
+}
+.bottom-3d {
+  -webkit-transform-origin: bottom center;
+  -webkit-transform: rotateX(90deg);
+  -moz-transform-origin: bottom center;
+  -moz-transform: rotateX(90deg);
+  -ms-transform-origin: bottom center;
+  -ms-transform: rotateX(90deg);  
+}
+.front {  
+ /* brings walls/floor to front; no special transformation needed  */
+}
