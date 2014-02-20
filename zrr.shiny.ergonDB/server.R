@@ -83,14 +83,14 @@ shinyServer(function(input, output) {
   # x Risks category selection
   output$xRiskCategory <- renderUI({
     selectInput("xRiskCategory", "Choose x risks Category:", 
-                choices = riskcats())
+                choices = riskcats(), multiple=TRUE)
                 
   })
   
   # x-Risks selection menu
   output$xRisks <- renderUI({
     riskSelection <- unlist(subset(risknames(),
-                                   INDICATOR_CATEGORY==input$xRiskCategory,
+                                   INDICATOR_CATEGORY %in% input$xRiskCategory,
                                    select=INDICATOR_NAME),use.names=FALSE)
     selectInput("xRisks", "Choose x Risk:", 
                 choices = riskSelection, multiple=TRUE)      
@@ -99,14 +99,14 @@ shinyServer(function(input, output) {
   # y Risks category selection
   output$yRiskCategory <- renderUI({
     selectInput("yRiskCategory", "Choose y risks Category:", 
-                choices = riskcats())
+                choices = riskcats(), multiple=TRUE)
     
   })
   
   # y-Risks selection menu
   output$yRisks <- renderUI({
     riskSelection <- unlist(subset(risknames(),
-                                   INDICATOR_CATEGORY==input$yRiskCategory,
+                                   INDICATOR_CATEGORY %in% input$yRiskCategory,
                                    select=INDICATOR_NAME),use.names=FALSE)
     selectInput("yRisks", "Choose y Risk:", 
                 choices = riskSelection, multiple=TRUE)      
@@ -403,8 +403,8 @@ rMDM1Country <- function(df) {
             
     # Rescaling for Reporting Discrepancies, LJK 21.01.2013
     # TODO: Check with Hansruedi if this has been really implemented
-    qx    <- qx * sqrt(vx2/(vx2 + vy2));
-    qy    <- qy * sqrt(vy2/(vx2 + vy2));
+   # qx    <- qx * sqrt(vx2/(vx2 + vy2));
+  #  qy    <- qy * sqrt(vy2/(vx2 + vy2));
     
     ret   <- c(qx,qy);
     ret;

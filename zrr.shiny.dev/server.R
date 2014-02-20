@@ -8,18 +8,23 @@ crimMatrix <- function(expr, env=parent.frame(), quoted=FALSE) {
   func <- shiny::exprToFunction(expr, env, quoted)
   
   function() {
-    value <- func()
+    value <- func()  
     value
   }
 }
 
-riskRoom <- function(expr, env=parent.frame(), quoted=FALSE) {
+renderRiskRoom <- function(expr, env=parent.frame(), quoted=FALSE) {
   # Convert expr to a function
+    
   func <- shiny::exprToFunction(expr, env, quoted)
   
   function() {
-    value <- func()
-    value
+    value <- func();    
+    list(mdm = value$mdm,
+         xbpd = value$xbpd,
+         xRisks = value$xRisks,
+         ybpd = value$ybpd,
+         yRisks = value$yRisks);
   }
 }
 
@@ -58,31 +63,24 @@ shinyServer(function(input, output) {
   })
   
   # The risk room
-  output$rr1 <- riskRoom({
+  output$myRiskRoom <- renderRiskRoom({
     r <- riskValues();
     if (length(r)) {
-#       series = list();
-#       apply(r$mdm,1,function(x) {
-#         series(
-#           name = as.character(x[1]),
-#           data = list(as.numeric(x[2:4]))
-#         )
-#       })
       r;
     }   
   });
   
-  # CRIM cords
-  output$mainnet <- crimMatrix({
-    data[input$sourceRisks];
-  });
-  
-  
-  # CRIM table
-  output$crimtable = renderDataTable({
-    data[input$sourceRisks];
-  }, 
-  options = list(bSortClasses = TRUE))  
+#   # CRIM cords
+#   output$mainnet <- crimMatrix({
+#     data[input$sourceRisks];
+#   });
+#   
+#   
+#   # CRIM table
+#   output$crimtable = renderDataTable({
+#     data[input$sourceRisks];
+#   }, 
+#   options = list(bSortClasses = TRUE))  
   
   
   # Reactive input: get countries, risks, period selection
@@ -116,7 +114,9 @@ calculateMDM <- function(sCountries,sxRisks,syRisks,sPeriod) {
                  "FROM RR_INDICATOR_VALUE"," ",
                  "WHERE FK_TIME_PERIOD = ",period," ",
                  "AND FK_INDICATOR IN (", as.character(xrIds),")",sep="")
+  
   xRisks  <- sqlQuery(con,query)
+  
   xBpdata <- getFiveNums(xRisks)
   xRisks <- merge(xRisks,countries,by.x="FK_GEO_UNIT",by.y="GEO_UNIT_ID")[,c("FK_GEO_UNIT","GEO_NAME","FK_INDICATOR","INDICATOR_VALUE","WALL")]
   xRisks <- merge(xRisks,risknames,by.x="FK_INDICATOR",by.y="INDICATOR_ID")[,c("FK_GEO_UNIT","FK_INDICATOR","GEO_NAME","INDICATOR_NAME","INDICATOR_VALUE","WALL")]    
