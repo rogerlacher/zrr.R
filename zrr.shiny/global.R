@@ -6,7 +6,7 @@ library(reshape2)
 source("dbconf.R")
 
 # Current environment
-env    <- "dev"
+env    <- "uat"
 envId  <- envs[[env]]
 #con    <- odbcConnect(dsn[envId],uid=user[envId],pwd=pass[envId])
 con    <- odbcConnect(dsn[envId],uid=user[envId],pwd=pass[envId],

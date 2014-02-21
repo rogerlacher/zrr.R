@@ -30,10 +30,21 @@ shinyUI(pageWithSidebar(
     
     uiOutput("yRiskCategory"),
     uiOutput("yRisks"),
+  
+    selectInput("algorithm","Select calculation algorithm",
+                c("rMDM" = "rMDM",
+                  "euclid" = "euclid",
+                  "mean" = "mean",
+                  "median" = "median")),
+    
+    checkboxGroupInput("options","Select calculation options",
+                       c("Laurence-Trafo" = "lt",
+                            "With Scaling" = "sc"),
+                       selected = "With Scaling")
     
     # uiOutput("period"),
     
-    tag("div",list(id="drag", class="drag"))
+    #tag("div",list(id="drag", class="drag"))
   ),
   
   # Show a plot of the generated distribution  

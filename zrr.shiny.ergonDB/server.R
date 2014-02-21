@@ -139,7 +139,7 @@ shinyServer(function(input, output) {
   # query the risk values using filters countries, risks, period
   riskValues <- reactive({
     if(!is.null(input$countries) && !is.null(input$xRisks) && !is.null(input$yRisks)) {    
-        calculateMDM(input$countries,input$xRisks,input$yRisks,input$period);      
+        calculateMDM(input$countries,input$xRisks,input$yRisks,input$period,input$algorithm, input$options);      
     }
   })
   
@@ -167,7 +167,7 @@ shinyServer(function(input, output) {
     countries;
   })
   
-  calculateMDM <- function(sCountries,sxRisks,syRisks,sPeriod) {
+  calculateMDM <- function(sCountries,sxRisks,syRisks,sPeriod, algorithm, options) {
     # period <- periods[sPeriod,][,"PERIOD_ID"]    
     period <- sPeriod;
     risknames <- risknames();
@@ -213,7 +213,8 @@ shinyServer(function(input, output) {
     yRisks <- subset(yRisks, GEO_NAME %in% sCountries)
       
     # calculate mdm
-    mdm <- cbind(rMDM(xRisks,yRisks),0.1)
+    #mdm <- cbind(rMDM(xRisks,yRisks),0.1)    
+    mdm <- cbind(calcMDM(xRisks,yRisks, algorithm, options),0.1)    
     mdm <- as.data.frame(mdm)
         
     results <- list(mdm = mdm, xRisks = xRisks, yRisks = yRisks, xbpd = xBpdata, ybpd = yBpdata)
@@ -356,25 +357,34 @@ getFiveNums <- function(results) {
 
 # calculates the MDM values
 # ===================================================
-rMDM  <- function(xRisks, yRisks) {    
+calcMDM  <- function(xRisks, yRisks, algorithm, options) {    
   df <- rbind(rx=xRisks[,c("INDICATOR_VALUE","GEO_NAME","WALL")],
               ry=yRisks[,c("INDICATOR_VALUE","GEO_NAME","WALL")]);
-  mdm <- ddply(df,.(GEO_NAME),function(d) rMDM1Country(d));    
+  
+  mdm <- switch(algorithm, 
+         "rMDM"    = ddply(df,.(GEO_NAME),function(d) rMDM1Country(d, options)),
+         "euclid"  = ddply(df,.(GEO_NAME),function(d) euclid1Country(d)),
+         "mean"    = ddply(df,.(GEO_NAME),function(d) mean1Country(d)),
+         "median"  = ddply(df,.(GEO_NAME),function(d) median1Country(d)));
+    
+#  mdm <- ddply(df,.(GEO_NAME),function(d) rMDM1Country(d));    
   
   
   # scaling factor -> how much exactly of MDM space should be used?
   # TODO: in order to be completely congruent to current online tool, rescale before narrowing down
   #       ccountries.
+  if ("sc" %in% options) {
   sF  <- 0.8;
-  v   <- mdm[,"V1"];
-  mdm[,"V1"] <- ((v - min(v)) / (max(v) - min(v))) * sF + (1-sF)/2;
-  v   <- mdm[,"V2"];
-  mdm[,"V2"] <- ((v - min(v)) / (max(v) - min(v))) * sF + (1-sF)/2
+    v   <- mdm[,"V1"];
+    mdm[,"V1"] <- ((v - min(v)) / (max(v) - min(v))) * sF + (1-sF)/2;
+    v   <- mdm[,"V2"];
+    mdm[,"V2"] <- ((v - min(v)) / (max(v) - min(v))) * sF + (1-sF)/2
+  }
   
   mdm;
 }
 
-rMDM1Country <- function(df) {
+rMDM1Country <- function(df, options) {
     
   
     rx  = subset(df,WALL=="x",select="INDICATOR_VALUE")
@@ -403,10 +413,39 @@ rMDM1Country <- function(df) {
             
     # Rescaling for Reporting Discrepancies, LJK 21.01.2013
     # TODO: Check with Hansruedi if this has been really implemented
-   # qx    <- qx * sqrt(vx2/(vx2 + vy2));
-  #  qy    <- qy * sqrt(vy2/(vx2 + vy2));
+    if ("lt" %in% options) {
+      qx    <- qx * sqrt(vx2/(vx2 + vy2));
+      qy    <- qy * sqrt(vy2/(vx2 + vy2));      
+    }
     
     ret   <- c(qx,qy);
     ret;
     
 } 
+
+
+l2 <- function(v) {
+  ret <- sum(v^2);
+  return(ret);
+}
+
+euclid1Country <- function(df) {
+  rx  = subset(df,WALL=="x",select="INDICATOR_VALUE")[,1]
+  ry  = subset(df,WALL=="y",select="INDICATOR_VALUE")[,1]
+  ret <- c(sqrt(l2(rx)/length(rx)), sqrt(l2(ry)/length(ry)))
+  ret;
+}
+
+mean1Country <- function(df) {
+  rx  = subset(df,WALL=="x",select="INDICATOR_VALUE")[,1]
+  ry  = subset(df,WALL=="y",select="INDICATOR_VALUE")[,1]
+  ret <- c(mean(rx), mean(ry));
+  ret;
+}
+
+median1Country <- function(df) {
+  rx  = subset(df,WALL=="x",select="INDICATOR_VALUE")[,1]
+  ry  = subset(df,WALL=="y",select="INDICATOR_VALUE")[,1]
+  ret <- c(median(rx), median(ry));
+  ret;
+}
