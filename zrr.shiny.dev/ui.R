@@ -49,15 +49,15 @@ shinyUI(pageWithSidebar(
   ),
   
   # Show a plot of the generated distribution
-  mainPanel(
-    includeHTML("www/js/room.js"),
+  mainPanel(    
     #includeHTML("www/js/graph.js"),
     tabsetPanel(         
       #tabPanel("Chords",crimChord(outputId = "mainnet")),
       #tabPanel("Table", dataTableOutput("crimtable")),
       tabPanel("Values Table", tableOutput("table")),
       tabPanel("ThreeD", riskRoomOutput(outputId =  "myRiskRoom"))     
-    )
+    ),
+    includeHTML("www/js/room.js")
   )  
 
 ))

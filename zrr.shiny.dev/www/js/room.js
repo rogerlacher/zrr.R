@@ -4,6 +4,7 @@
 <script src="js/highcharts.js"></script>
 <script src="js/highcharts-more.js"></script>
 <script src="js/draggable-points.js"></script>
+<script src="js/initRiskRoom.js"></script>
 <script type="text/javascript">
 var riskroomOutputBinding = new Shiny.OutputBinding();
 
@@ -20,81 +21,11 @@ $.extend(riskroomOutputBinding, {
     yRisks = data.yRisks;
     
     
-    
-    // buttons    
-    /*
-    d3.select(".menubar").remove();
-    var menuBar = d3.select(el).append("div")            
-        .attr("class","menubar")
-        .attr("id","menubar");      
-      
-    menuBar.append("button").html("3D");
-    menuBar.append("button").html("MDM");
-    menuBar.append("button").html("x-Wall");
-    menuBar.append("button").html("y-Wall");
-    */
-   
-   // clear everything
-   //d3.select(el).remove();
-   
-   //  create the container & room
-   var riskroom = d3.select(el).append("div")
-        .attr("class","cube")
-        .attr("id","riskroom");        
-    // Floor
-    var floor = riskroom.append("div")
-        .attr("class","bottom-3d")
-        .attr("id","mdmPane");
-    var mdmPlot = floor.append("div")
-        .attr("id","mdmPlot")
-        .attr("class","shiny-html-output");
-    // x-Wall          
-    var xWallDiv = riskroom.append("div")
-        .attr("class","back-3d")
-        .attr("id","xRiskPane");
-    var xWall = xWallDiv.append("div")
-        .attr("id","xRiskWall")
-        .attr("class","shiny-html-output");
-    // y-Wall          
-    var yWallDiv = riskroom.append("div")
-        .attr("class","left-3d")
-        .attr("id","yRiskPane");
-    var yWall = yWallDiv.append("div")
-        .attr("id","yRiskWall")
-        .attr("class","shiny-html-output");         
- 
-
-    
-    // TODO: completely change the data structures passed to Javascript /
-    //       toJSON to simplify handling!!!
-    //       quite probably we need MDM calcs in JavaScript anyway....
-    //
-    // for now...
-    
-    // add the highcharts for walls and floor    
-    // do something reasonable with data
-    
-    // (re)draw the MDM            
-    var mdmChart = new Highcharts.Chart(
-      {      
-      chart: {      
-        type: 'bubble',
-        zoomType: 'xy',
-        renderTo: mdmPlot
-      },
-      title:{
-        text: 'Minimal Distortion Map'
-      },
-      xAxis: {
-        min: 0,
-        max: 1
-      },
-      yAxis: {
-        min: 0,
-        max: 1
-      }
-      // series: mDataSeries  
-    });  
+    // get a handle to the MDM plot
+    var mdmPlot = $('#mdmPlot').highcharts();
+    // make sure all series get removed
+    while(mdmPlot.series.length > 0)
+          mdmPlot.series[0].remove(true);
     
     
     var mSeries = [];
@@ -110,55 +41,23 @@ $.extend(riskroomOutputBinding, {
         mData.push(mPoint);
         mElement["data"] = mData;
         //mDataSeries.push(mElement);
-        mdmChart.addSeries(mElement, true);
+        mdmPlot.addSeries(mElement, true);
       })
    
     
-    /*
-    renderWall(xbpd, xRisks, xWall);
-    renderWall(ybpd, yRisks, yWall);
+    
+    renderWall(xbpd, xRisks, 'xRiskWall');
+    renderWall(ybpd, yRisks, 'yRiskWall');
     
     function renderWall(bpData, riskData, wallId) {
       // add the highcharts for walls and floor
       // do something reasonable with data
       
-            // Risk Walls
-      var wall = new Highcharts.Charts({      
-        chart: {      
-          zoomType: 'xy'
-        },
-        title:{
-          text: 'x-Risk Wall'
-        },        
-        xAxis: {
-          categories: [],
-          //categories: mCategories,
-          title: {
-              text: 'Risk Key.'
-	        }
-	      },
-        plotOptions: {
-          series: {
-            stickyTracking: true,
-            cursor: 'ns-resize',
-            marker: {
-              radius: 3
-            },
-            point: {
-              events: {
-                drop: function() {
-                    console.writeln("whatif-drop");
-                    whatif(this);
-                }
-              }
-            }
-          }            
-        },
-        series: [],
-        renderTo: wallId
-        //series: mSeries
-      }) 
-      
+      var wall = $('#' + wallId).highcharts();
+      // remove old series
+      while(wall.series.length > 0)
+          wall.series[0].remove(true);
+            
       mDataSeries = [];      
       bpData[0].forEach(
         function(element,index,array){
@@ -198,6 +97,7 @@ $.extend(riskroomOutputBinding, {
           mData[country].push(parseFloat(riskData.INDICATOR_VALUE[index]));
       })  
       
+      wall.xAxis[0].setCategories(null,true);
       wall.xAxis[0].setCategories(mCategories,true);
         
       
@@ -225,7 +125,7 @@ $.extend(riskroomOutputBinding, {
           }       
       });
     }
-    */
+    
   
   }
 });
