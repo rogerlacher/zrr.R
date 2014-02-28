@@ -5,6 +5,8 @@ crimChord <- function (outputId)
   HTML(paste("<div id=\"", outputId, "\" class=\"shiny-network-output\"><svg /></div>", sep=""))
 }
 
+
+# TODO: Initialise the riskroom-output by invoking initRiskRoom.js rather than by below HTML...
 riskRoomOutput <- function (outputId) 
 {
   HTML(paste("<div id=\"", outputId, "\" class=\"riskroom-output\"></div>", sep=""))
@@ -36,28 +38,28 @@ shinyUI(pageWithSidebar(
                 value=1,
                 step=1),
     
-    tag("div",list(id="drag", class="drag"))
+    tag("div",list(id="drag", class="drag")),
 
-#     HTML("<hr />"),
-#     
-#     selectInput(inputId = "sourceRisks",
-#                 label="Select the source risks:",
-#                 choices = risks,
-#                 selected = sample(risks,round(length(risks)/3)),
-#                 multiple = TRUE)    
+    HTML("<hr />"),
+    
+    selectInput(inputId = "sourceRisks",
+                label="Select the source risks:",
+                choices = risks,
+                selected = sample(risks,round(length(risks)/3)),
+                multiple = TRUE)    
 
   ),
   
   # Show a plot of the generated distribution
   mainPanel(    
-    #includeHTML("www/js/graph.js"),
+    includeHTML("www/js/graph.js"),
     tabsetPanel(         
-      #tabPanel("Chords",crimChord(outputId = "mainnet")),
-      #tabPanel("Table", dataTableOutput("crimtable")),
+      tabPanel("Chords",crimChord(outputId = "mainnet")),
+      tabPanel("Table", dataTableOutput("crimtable")),
       tabPanel("Values Table", tableOutput("table")),
       tabPanel("ThreeD", riskRoomOutput(outputId =  "myRiskRoom"))     
     ),
-    includeHTML("www/js/room.js")
+    includeHTML("www/js/x3d_room.js")
   )  
 
 ))

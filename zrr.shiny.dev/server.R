@@ -70,17 +70,17 @@ shinyServer(function(input, output) {
     }   
   });
   
-#   # CRIM cords
-#   output$mainnet <- crimMatrix({
-#     data[input$sourceRisks];
-#   });
-#   
-#   
-#   # CRIM table
-#   output$crimtable = renderDataTable({
-#     data[input$sourceRisks];
-#   }, 
-#   options = list(bSortClasses = TRUE))  
+  # CRIM cords
+  output$mainnet <- crimMatrix({
+    data[input$sourceRisks];
+  });
+  
+  
+  # CRIM table
+  output$crimtable = renderDataTable({
+    data[input$sourceRisks];
+  }, 
+  options = list(bSortClasses = TRUE))  
   
   
   # Reactive input: get countries, risks, period selection

@@ -8,16 +8,47 @@ $(document).ready(function() {
 
 
     var rootElement = d3.select('.riskroom-output');
-    // buttons    
+    // buttons        
         
+   view3D = function() {
+      $("#mdmPane").attr("class","bottom-3d");
+      $("#xRiskPane").attr("class","back-3d");
+      $("#yRiskPane").attr("class","left-3d");    
+    }  
+    viewMDM = function() {
+      view3D();
+      $("#mdmPane").removeClass("bottom-3d");
+    }
+    viewxWall = function() {
+      view3D();
+      $("#xRiskPane").removeClass("back-3d");
+    }
+    viewyWall = function() {
+      view3D();
+      $("#yRiskPane").removeClass("left-3d");
+    }        
+
+
     var menuBar = rootElement.append("div")            
         .attr("class","menubar")
         .attr("id","menubar");      
       
-    menuBar.append("button").html("3D");
-    menuBar.append("button").html("MDM");
-    menuBar.append("button").html("x-Wall");
-    menuBar.append("button").html("y-Wall");
+    menuBar.append("button")
+        .attr("id","3d")
+        .on("click","view3D")
+        .html("3D");
+    menuBar.append("button")
+        .attr("id","mdm")
+        .on("click","viewMDM")
+        .html("MDM");
+    menuBar.append("button")
+        .attr("id","x-Wall")
+        .on("click","viewxWall")
+        .html("x-Wall");
+    menuBar.append("button")
+        .attr("id","y-Wall")
+        .on("click","viewyWall")
+        .html("y-Wall");
     
 
    //  create the container & room
