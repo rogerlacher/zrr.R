@@ -47,7 +47,7 @@ shinyServer(function(input, output) {
     p1 <- riskWallPlot(x="INDICATOR_NAME",y="INDICATOR_VALUE",
                         data=r$yRisks, bpd = r$ybpd, type="line",
                         group="GEO_NAME", title="y Risks");
-    p1$addParams(dom = 'yRiskWall');
+    p1$addParams(dom = 'yRiskWall');content
     return(p1);
 
     })
@@ -60,6 +60,57 @@ shinyServer(function(input, output) {
       #r$mdm;
     }        
   })     
+  
+  # The teaser tool download 
+  output$ttTable <- renderTable({
+    ttOutput();
+  })     
+  
+  output$downloadData <- downloadHandler(
+    filename = 'export.csv',
+    content = function(file) {
+      write.table(ttOutput(), file, sep=";")
+    }
+  )
+  
+  ttOutput <- function() {
+    r <- riskValues();    
+    if (length(r)) {    
+      md <- t(r$mdm)
+      colnames(md) <- md["GEO_NAME",]
+      rownames(md) <- c("GEO_NAME","u","v","diam");
+      xr <- reshape(r$xRisks[,c("GEO_NAME","INDICATOR_NAME","INDICATOR_VALUE")],timevar="GEO_NAME",idvar="INDICATOR_NAME",direction="wide")
+      colnames(xr) <- c("Risk Name", md["GEO_NAME",])
+      rownames(xr) <- xr[,1]
+      xr <- xr[,-1]
+      yr <- reshape(r$yRisks[,c("GEO_NAME","INDICATOR_NAME","INDICATOR_VALUE")],timevar="GEO_NAME",idvar="INDICATOR_NAME",direction="wide")
+      colnames(yr) <- c("Risk Name", md["GEO_NAME",])
+      rownames(yr) <- yr[,1]
+      yr <- yr[,-1]
+      
+      rn <- unique(r$xRisks[,c("FK_INDICATOR","INDICATOR_NAME")]);
+      d<-ldply(.data=r$xbpd,print)
+      colnames(d) <- c("FK_INDICATOR","lw","lq","med","uq","uw");
+      xbp <- merge(rn,d)[,-1]
+      rownames(xbp) <- xbp[,1]
+      xpb <- xbp[,-1]
+      
+      rn <- unique(r$yRisks[,c("FK_INDICATOR","INDICATOR_NAME")]);
+      d<-ldply(.data=r$ybpd,print)
+      colnames(d) <- c("FK_INDICATOR","lw","lq","med","uq","uw");
+      ybp <- merge(rn,d)[,-1]
+      rownames(ybp) <- ybp[,1]
+      ypb <- ybp[,-1]
+      
+      xr <- cbind(xr,xbp[,-1])
+      yr <- cbind(yr,ybp[,-1])
+      md <- cbind(md,matrix(,nrow(md),5))
+      colnames(md) <- colnames(xr);
+      
+      res <- rbind(xr,yr,md[-1,]);
+    }
+    res;
+  }
   
   # helper function to display more digits on values table
   format_num <- function(col) {
@@ -167,6 +218,7 @@ shinyServer(function(input, output) {
     countries;
   })
   
+
   calculateMDM <- function(sCountries,sxRisks,syRisks,sPeriod, algorithm, options) {
     # period <- periods[sPeriod,][,"PERIOD_ID"]    
     period <- sPeriod;

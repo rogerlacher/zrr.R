@@ -54,7 +54,8 @@ shinyUI(pageWithSidebar(
       tabPanel("x Risk Walls",showOutput("xRiskWall", "Highcharts")),
       tabPanel("y Risk Walls",showOutput("yRiskWall", "Highcharts")),         
       tabPanel("Values Table", tableOutput("table")),
-      tabPanel("Data Explorer", htmlOutput("Hello Shiny"))
+      tabPanel("Teaser Tool", tableOutput("ttTable"),
+               downloadButton('downloadData', 'Download'))
       ),
     uiOutput("period"),
     includeResources()
