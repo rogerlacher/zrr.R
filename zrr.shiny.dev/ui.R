@@ -55,9 +55,9 @@ shinyUI(pageWithSidebar(
     includeHTML("www/js/graph.js"),
     tabsetPanel(         
       tabPanel("Chords",crimChord(outputId = "mainnet")),
+      tabPanel("ThreeD", riskRoomOutput(outputId =  "myRiskRoom")),
       tabPanel("Table", dataTableOutput("crimtable")),
-      tabPanel("Values Table", tableOutput("table")),
-      tabPanel("ThreeD", riskRoomOutput(outputId =  "myRiskRoom"))     
+      tabPanel("Values Table", tableOutput("table"))      
     ),
     includeHTML("www/js/x3d_room.js")
   )  

@@ -47,7 +47,7 @@ shinyServer(function(input, output) {
     p1 <- riskWallPlot(x="INDICATOR_NAME",y="INDICATOR_VALUE",
                         data=r$yRisks, bpd = r$ybpd, type="line",
                         group="GEO_NAME", title="y Risks");
-    p1$addParams(dom = 'yRiskWall');content
+    p1$addParams(dom = 'yRiskWall');
     return(p1);
 
     })
