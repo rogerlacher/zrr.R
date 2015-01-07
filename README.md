@@ -24,3 +24,4 @@ The following R libraries are being used:
   * rCharts
   
 rCharts, again, makes use of "Highcharts" (and other javascript libraries) for creating javascript based charts.
+
